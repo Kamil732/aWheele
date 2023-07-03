@@ -1,0 +1,554 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-06-04 00:24+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n"
+"%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n"
+"%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+
+#: .\accounts\templates\accounts\login.html:14
+#: .\accounts\templates\accounts\login.html:37
+#: .\products\templates\products\observed_product_list.html:30
+#: .\templates\partials\_navbar.html:36
+msgid "Login"
+msgstr "Zaloguj się"
+
+#: .\accounts\templates\accounts\register.html:14
+#: .\accounts\templates\accounts\register.html:61
+#: .\templates\partials\_navbar.html:33
+msgid "Register"
+msgstr "Zarejesturj się"
+
+#: .\accounts\urls.py:9
+msgid "login"
+msgstr "logowanie"
+
+#: .\accounts\urls.py:10
+msgid "register"
+msgstr "rejestrowanie"
+
+#: .\accounts\urls.py:11
+msgid "logout"
+msgstr "wylogowanie"
+
+#: .\products\models.py:19
+msgid "Manual"
+msgstr "Ręczny"
+
+#: .\products\models.py:20
+msgid "Automatic"
+msgstr "Automatyczny"
+
+#: .\products\models.py:21
+msgid "Half-automatic"
+msgstr "Poł automatyczny"
+
+#: .\products\models.py:58
+#: .\products\templates\products\partials\__condition_searchbar.html:9
+msgid "Brand new"
+msgstr "Nowe"
+
+#: .\products\models.py:59
+#: .\products\templates\products\partials\__condition_searchbar.html:13
+msgid "Used"
+msgstr "Używane"
+
+#: .\products\models.py:63
+msgid "Petrol"
+msgstr "Benzyna"
+
+#: .\products\models.py:65
+msgid "Petrol+LPG"
+msgstr "Benzyna+LPG"
+
+#: .\products\models.py:66
+msgid "Petrol+CNG"
+msgstr "Benzyna+CNG"
+
+#: .\products\models.py:67
+msgid "Electric"
+msgstr "Elektryczny"
+
+#: .\products\models.py:69
+msgid "Hybrid"
+msgstr "Hybryda"
+
+#: .\products\models.py:70
+msgid "Hydrogen"
+msgstr "Wodór"
+
+#: .\products\models.py:74
+msgid "Black"
+msgstr "Czarny"
+
+#: .\products\models.py:75
+msgid "Brown"
+msgstr "Brązowy"
+
+#: .\products\models.py:76
+msgid "Purple"
+msgstr "Fioletowy"
+
+#: .\products\models.py:77
+msgid "Red"
+msgstr "Czerwony"
+
+#: .\products\models.py:78
+msgid "Blue"
+msgstr "Niebieski"
+
+#: .\products\models.py:79
+msgid "White"
+msgstr "Biały"
+
+#: .\products\models.py:80
+msgid "Gold"
+msgstr "złoty"
+
+#: .\products\models.py:81
+msgid "Silver"
+msgstr "Srebrny"
+
+#: .\products\models.py:82
+msgid "Grey"
+msgstr "Szary"
+
+#: .\products\models.py:83
+msgid "Yellow"
+msgstr "Żółty"
+
+#: .\products\models.py:84
+msgid "Green"
+msgstr "Zielony"
+
+#: .\products\models.py:85
+msgid "Other color"
+msgstr "Inny kolor"
+
+#: .\products\models.py:145
+msgid "4x4 (included automatically)"
+msgstr "4x4 (dołączony automatycznie)"
+
+#: .\products\models.py:146
+msgid "4x4 (included manually)"
+msgstr "4x4 (dołączony ręcznie)"
+
+#: .\products\models.py:147
+msgid "4x4 (constant)"
+msgstr "4x4 (na stałe)"
+
+#: .\products\models.py:148
+msgid "Front wheels"
+msgstr "Przednie koła"
+
+#: .\products\models.py:149
+msgid "Back wheels"
+msgstr "Tylnie koła"
+
+#: .\products\models.py:186
+msgid "Accessories"
+msgstr "Akcesorie"
+
+#: .\products\models.py:187
+msgid "Audio equipment"
+msgstr "Zestaw audio"
+
+#: .\products\models.py:188
+msgid "Filters"
+msgstr "Filtry"
+
+#: .\products\models.py:189
+msgid "Interior items"
+msgstr "Przedmioty wewnętrzne"
+
+#: .\products\models.py:190
+msgid "Wheels"
+msgstr "Koła"
+
+#: .\products\models.py:191
+msgid "Tires"
+msgstr "Opony"
+
+#: .\products\models.py:192
+msgid "Heating/ventilation/conditioning"
+msgstr "Ogrzewanie/wentylacja/kondycjowanie"
+
+#: .\products\models.py:193
+msgid "Lighting"
+msgstr "Światło"
+
+#: .\products\models.py:194 .\products\templates\products\detail.html:104
+msgid "Gearbox"
+msgstr "Skrzynia biegów"
+
+#: .\products\models.py:195
+msgid "Engine"
+msgstr "Śilnik"
+
+#: .\products\models.py:196
+msgid "Electric system"
+msgstr "System elektryczny"
+
+#: .\products\models.py:197
+msgid "Braking system"
+msgstr "System hamowania"
+
+#: .\products\models.py:198
+msgid "Equipment"
+msgstr "Wyposarzenie"
+
+#: .\products\models.py:199
+msgid "Other"
+msgstr "Inne"
+
+#: .\products\models.py:235
+msgid "Patch"
+msgstr "Krosowy"
+
+#: .\products\models.py:236
+msgid "Moped"
+msgstr "Motorower"
+
+#: .\products\models.py:237
+msgid "Naked"
+msgstr "Nagi"
+
+#: .\products\models.py:239
+msgid "Scooter"
+msgstr "Skuter"
+
+#: .\products\models.py:240
+msgid "Sporty"
+msgstr "Sportowy"
+
+#: .\products\models.py:241
+msgid "Tourist"
+msgstr "Turystyczny"
+
+#: .\products\templates\products\detail.html:58
+msgid "Vehical's mark"
+msgstr "Marka pojazdu"
+
+#: .\products\templates\products\detail.html:65
+#: .\products\templates\products\partials\_base_vehical_searchbar.html:30
+msgid "Year of production"
+msgstr "Rok produkcji"
+
+#: .\products\templates\products\detail.html:72
+#: .\products\templates\products\partials\_base_vehical_searchbar.html:49
+msgid "Mileage"
+msgstr "Przebieg"
+
+#: .\products\templates\products\detail.html:79
+#: .\products\templates\products\partials\_base_car_searchbar.html:5
+#: .\products\templates\products\partials\_base_car_searchbar.html:8
+msgid "Fuel type"
+msgstr "Rodzaj paliwa"
+
+#: .\products\templates\products\detail.html:86
+#: .\products\templates\products\partials\_vehical_searchbar.html:6
+msgid "Power"
+msgstr "Moc"
+
+#: .\products\templates\products\detail.html:97
+#: .\products\templates\products\partials\_vehical_searchbar.html:15
+#: .\products\templates\products\partials\_vehical_searchbar.html:18
+msgid "Country of origin"
+msgstr "Kraj pochodzenia"
+
+#: .\products\templates\products\detail.html:111
+msgid "Color"
+msgstr "Kolor"
+
+#: .\products\templates\products\detail.html:118
+msgid "First owner"
+msgstr "Pierwszy właściciel"
+
+#: .\products\templates\products\detail.html:125
+msgid "Condition"
+msgstr "Stan"
+
+#: .\products\templates\products\detail.html:136
+msgid "Description"
+msgstr "Opis"
+
+#: .\products\templates\products\detail.html:184
+msgid "To negotiate"
+msgstr "Do negocjacji"
+
+#: .\products\templates\products\detail.html:202
+msgid "Contact with the seller"
+msgstr "Kontakt ze sprzedającym"
+
+#: .\products\templates\products\detail.html:206
+msgid "See seller's phone number"
+msgstr "Zobacz numer telefonu sprzedającego"
+
+#: .\products\templates\products\detail.html:223
+msgid "Send message"
+msgstr "Wyślij wiadomość"
+
+#: .\products\templates\products\detail.html:247
+msgid "Send"
+msgstr "Wyślij"
+
+#: .\products\templates\products\index.html:5
+msgid "aWheele - Buy the best cars, parts and motorcycles"
+msgstr "aWheele - Kupuj najlepsze samochody, części i motocykle"
+
+#: .\products\templates\products\index.html:48
+#: .\products\templates\products\search_product_list.html:36
+#, fuzzy
+#| msgid "search"
+msgid "Search"
+msgstr "szukaj"
+
+#: .\products\templates\products\index.html:65
+msgid "Promoted offers"
+msgstr "Promowane oferty"
+
+#: .\products\templates\products\observed_product_list.html:32
+msgid ""
+"\n"
+"                    if you want to save your observed list, <br>\n"
+"                    because now this is only avalble on this browser\n"
+"                "
+msgstr ""
+"\n"
+"                    Jeśli chcesz zapisać swoją obserwowaną listę, <br>\n"
+"                    ponieważ teraz jest tylko dostępna na tej przeglądarce\n"
+"                "
+
+#: .\products\templates\products\observed_product_list.html:45
+msgid ""
+"It seems you added some offers to observed list when you were not loged in"
+msgstr ""
+"Wydaje się, że dodałeś jakieś oferty do obserwowanych, gdy byłeś nie "
+"zalogowany"
+
+#: .\products\templates\products\observed_product_list.html:46
+msgid "Would you like save them?"
+msgstr "Chciałbyś je zapisać?"
+
+#: .\products\templates\products\observed_product_list.html:92
+msgid "Don't save"
+msgstr "Nie zapisuj"
+
+#: .\products\templates\products\observed_product_list.html:93
+msgid "Save"
+msgstr "Zapisz"
+
+#: .\products\templates\products\observed_product_list.html:101
+msgid "Observed offers"
+msgstr "Obserwowane oferty"
+
+#: .\products\templates\products\observed_product_list.html:160
+#: .\products\templates\products\observed_product_list.html:198
+msgid "You don't observe any offer"
+msgstr "Nie obserwujesz żadnej oferty"
+
+#: .\products\templates\products\partials\__condition_searchbar.html:5
+msgid "Everything"
+msgstr "Wszystko"
+
+#: .\products\templates\products\partials\__product_searchbar.html:6
+msgid "Cars"
+msgstr "Samochody"
+
+#: .\products\templates\products\partials\__product_searchbar.html:10
+msgid "Parts"
+msgstr "Części"
+
+#: .\products\templates\products\partials\__product_searchbar.html:14
+msgid "Motorcycles"
+msgstr "Motocykle"
+
+#: .\products\templates\products\partials\_base_motorcycle_searchbar.html:5
+#: .\products\templates\products\partials\_base_motorcycle_searchbar.html:8
+msgid "Motorcycle type"
+msgstr "Rodzaj motocyklu"
+
+#: .\products\templates\products\partials\_base_part_searchbar.html:4
+#: .\products\templates\products\partials\_base_part_searchbar.html:7
+msgid "Type of part"
+msgstr "Rodzaj części"
+
+#: .\products\templates\products\partials\_base_part_searchbar.html:17
+#: .\products\templates\products\partials\_base_vehical_searchbar.html:6
+msgid "Mark"
+msgstr "Marka"
+
+#: .\products\templates\products\partials\_base_part_searchbar.html:20
+msgid "Mark of the part"
+msgstr "Marka części"
+
+#: .\products\templates\products\partials\_base_part_searchbar.html:30
+#: .\products\templates\products\partials\_base_vehical_searchbar.html:19
+msgid "Price"
+msgstr "Cena"
+
+#: .\products\templates\products\partials\_base_part_searchbar.html:32
+#: .\products\templates\products\partials\_base_vehical_searchbar.html:21
+#: .\products\templates\products\partials\_base_vehical_searchbar.html:33
+#: .\products\templates\products\partials\_base_vehical_searchbar.html:51
+#: .\products\templates\products\partials\_vehical_searchbar.html:8
+msgid "From"
+msgstr "Od"
+
+#: .\products\templates\products\partials\_base_part_searchbar.html:33
+#: .\products\templates\products\partials\_base_vehical_searchbar.html:22
+#: .\products\templates\products\partials\_base_vehical_searchbar.html:39
+#: .\products\templates\products\partials\_base_vehical_searchbar.html:52
+#: .\products\templates\products\partials\_vehical_searchbar.html:9
+msgid "To"
+msgstr "Do"
+
+#: .\products\templates\products\partials\_base_part_searchbar.html:40
+msgid "Delivery"
+msgstr "Dostawa"
+
+#: .\products\templates\products\partials\_base_vehical_searchbar.html:9
+msgid "Mark of the car"
+msgstr "Marka samochodu"
+
+#: .\products\templates\products\partials\_detail_seller_information.html:14
+#, fuzzy
+#| msgid "Information"
+msgid "Location"
+msgstr "Informacje"
+
+#: .\products\templates\products\partials\_detail_seller_information.html:16
+msgid "Show map"
+msgstr "Pokaż mapę"
+
+#: .\products\templates\products\search_product_list.html:15
+#, python-format
+msgid "We have found %(offers_count)s offer%(is_more_than_1)s"
+msgstr ""
+
+#: .\products\templates\products\search_product_list.html:110
+#, python-format
+msgid "Unfortunately there's no %(product)s which you're looking for"
+msgstr "Niestety nie znaleźliśmy %(product)s, którego szukasz"
+
+#: .\products\urls.py:10
+msgid "offers/"
+msgstr "oferty/"
+
+#: .\products\urls.py:11
+msgid "search"
+msgstr "szukaj"
+
+#: .\products\urls.py:12
+msgid "observed/"
+msgstr "obserwowane/"
+
+#: .\products\urls.py:14
+msgid "anonymous"
+msgstr "nieznajome"
+
+#: .\products\urls.py:16
+msgid "add"
+msgstr "dodaj"
+
+#: .\products\urls.py:17
+msgid "remove"
+msgstr "usun"
+
+#: .\products\urls.py:22
+msgid "send-email/"
+msgstr "wyślij-email/"
+
+#: .\products\views.py:169
+msgid "Your message has been sent successfuly"
+msgstr "Twoja wiadomość została wyśłana pomyślnie"
+
+#: .\shop\settings.py:151
+msgid "English"
+msgstr "Angielski"
+
+#: .\shop\settings.py:152
+msgid "Polish"
+msgstr "Polski"
+
+#: .\shop\urls.py:16
+msgid "accounts/"
+msgstr "konta/"
+
+#: .\templates\partials\_footer.html:20
+msgid "Poland"
+msgstr "Polska"
+
+#: .\templates\partials\_footer.html:20
+msgctxt "street"
+msgid "st"
+msgstr "ul"
+
+#: .\templates\partials\_footer.html:33
+msgid "Information"
+msgstr "Informacje"
+
+#: .\templates\partials\_footer.html:34
+msgid "The website was created by"
+msgstr "Strona została stworzona przez"
+
+#: .\templates\partials\_navbar.html:19
+msgid "Observed"
+msgstr "Obserwowane"
+
+#: .\templates\partials\_navbar.html:28
+msgid "Logout"
+msgstr "Wyloguj"
+
+#: .\templates\partials\_navbar.html:40
+msgid "Add an announcement"
+msgstr "Dodaj ogłoszenie"
+
+#: .\templates\partials\_navbar.html:48
+msgid "stayathome"
+msgstr "zostanwdomu"
+
+#: .\templates\partials\_navbar.html:48
+msgid "Active information and recomendation for buyers and sellers on aWheele"
+msgstr ""
+"Aktywne informacje i rekomendacje dla kupujących i sprzedających na aWheele"
+
+#: .\templates\partials\_paginator.html:6
+#, python-format
+msgid "Page %(page_number)s of %(pages)s"
+msgstr "Strona %(page_number)s z %(pages)s"
+
+msgid "Damaged"
+msgstr "Zniszczone"
+
+msgid "car"
+msgstr "samochodu"
+
+msgid "Car"
+msgstr "Samochód"
+
+msgid "motorcycle"
+msgstr "motocyklu"
+
+msgid "Motorcycle"
+msgstr "Motocykl"
+
+msgid "part"
+msgstr "części"
+
+msgid "Part"
+msgstr "Część"

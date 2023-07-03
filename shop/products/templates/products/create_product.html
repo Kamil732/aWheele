@@ -1,0 +1,753 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load i18n %}
+
+{% block body_content %}
+
+<div class="container-md">
+    <h1 class="my-4">Create {{ kind_of_offer|capfirst }}</h1>
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div class="row">
+        <div class="col-lg-9">
+            <form method="post"> {% csrf_token %}
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <div class="form-group">
+                            {% if view.kwargs.section == 'car' or view.kwargs.section == 'motorcycle' %}
+                                {% if form.first_owner.errors %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {% for error in form.first_owner.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <div class="custom-control custom-control-inline custom-checkbox">
+                                    {{ form.first_owner }}
+                                    <label class="custom-control-label" for="{{ form.first_owner.id_for_label }}">{{ form.first_owner.label }}</label>
+                                </div>
+                                {% if view.kwargs.section == 'car' %}
+                                    {% if form.right_hand_drive.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {% for error in form.right_hand_drive.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <div class="custom-control custom-control-inline custom-checkbox">
+                                        {{ form.right_hand_drive }}
+                                        <label class="custom-control-label" for="{{ form.right_hand_drive.id_for_label }}">{{ form.right_hand_drive.label }}</label>
+                                    </div>
+                                {% endif %}
+                            {% elif view.kwargs.section == 'part' %}
+                                {% if form.delivery.errors %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {% for error in form.delivery.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <div class="custom-control custom-control-inline custom-checkbox">
+                                    {{ form.delivery }}
+                                    <label class="custom-control-label" for="{{ form.delivery.id_for_label }}">{{ form.delivery.label }}</label>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {% if form.condition.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {% for error in form.condition.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <h6>{{ form.condition.label }}:</h6>
+                            {% for radio in form.condition %}
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    {{ radio.tag }}
+                                    <label class="custom-control-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        {% if view.kwargs.section == 'car' %}
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        {% if form.year_production.errors %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {% for error in form.year_production.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <label for="{{ form.year_production.id_for_label }}">{{ form.year_production.label }}</label>
+                                        <div class="position-relative">
+                                            {{ form.year_production }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        {% if form.mark.errors %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {% for error in form.mark.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <label for="{{ form.mark.id_for_label }}">{{ form.mark.label }}</label>
+                                        <div class="position-relative">
+                                            {{ form.mark }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        {% if form.fuel_type.errors %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {% for error in form.fuel_type.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <label for="{{ form.fuel_type.id_for_label }}">{{ form.fuel_type.label }}</label>
+                                        <div class="position-relative">
+                                            {{ form.fuel_type }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        {% if form.power.errors %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {% for error in form.power.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <label for="{{ form.power.id_for_label }}">{{ form.power.label }}</label>
+                                        {{ form.power }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        {% if form.num_of_doors.errors %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {% for error in form.num_of_doors.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <label for="{{ form.num_of_doors.id_for_label }}">{{ form.num_of_doors.label }}</label>
+                                        {{ form.num_of_doors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        {% if form.gearbox.errors %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {% for error in form.gearbox.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <label for="{{ form.gearbox.id_for_label }}">{{ form.gearbox.label }}</label>
+                                        <div class="position-relative">
+                                            {{ form.gearbox }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        {% if form.mileage.errors %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {% for error in form.mileage.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <label for="{{ form.mileage.id_for_label }}">{{ form.mileage.label }}</label>
+                                        <div class="position-relative">
+                                            {{ form.mileage }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% elif view.kwargs.section == 'motorcycle' %}
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        {% if form.year_production.errors %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {% for error in form.year_production.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <label for="{{ form.year_production.id_for_label }}">{{ form.year_production.label }}</label>
+                                        <div class="position-relative">
+                                            {{ form.year_production }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        {% if form.mark.errors %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {% for error in form.mark.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <label for="{{ form.mark.id_for_label }}">{{ form.mark.label }}</label>
+                                        <div class="position-relative">
+                                            {{ form.mark }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {% if form.gearbox.errors %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {% for error in form.gearbox.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <label for="{{ form.gearbox.id_for_label }}">{{ form.gearbox.label }}</label>
+                                        <div class="position-relative">
+                                            {{ form.gearbox }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row d-flex justify-content-center">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {% if form.power.errors %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {% for error in form.power.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <label for="{{ form.power.id_for_label }}">{{ form.power.label }}</label>
+                                        {{ form.power }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {% if form.mileage.errors %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {% for error in form.mileage.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <label for="{{ form.mileage.id_for_label }}">{{ form.mileage.label }}</label>
+                                        <div class="position-relative">
+                                            {{ form.mileage }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% elif view.kwargs.section == 'part' %}
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        {% if form.mark.errors %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {% for error in form.mark.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <label for="{{ form.mark.id_for_label }}">{{ form.mark.label }}</label>
+                                        <div class="position-relative">
+                                            {{ form.mark }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        {% if form.part_type.errors %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {% for error in form.part_type.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <label for="{{ form.part_type.id_for_label }}">{{ form.part_type.label }}</label>
+                                        <div class="position-relative">
+                                            {{ form.part_type }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="form-group">
+                            {% if form.title.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {% for error in form.title.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+                            <div class="position-relative">
+                                {{ form.title }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% if view.kwargs.section != 'part' %}
+                    <div class="card shadow-sm mt-2">
+                        <div class="card-body">
+                            <div class="form-group">
+                                {% if view.kwargs.section == 'car' %}
+                                    {% if form.car_type.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {% for error in form.car_type.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <label for="{{ form.car_type.id_for_label }}">{{ form.car_type.label }}</label>
+                                    <div class="position-relative">
+                                        {{ form.car_type }}
+                                    </div>
+                                {% elif view.kwargs.section == 'motorcycle' %}
+                                    {% if form.motorcycle_type.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {% for error in form.motorcycle_type.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <label for="{{ form.motorcycle_type.id_for_label }}">{{ form.motorcycle_type.label }}</label>
+                                    <div class="position-relative">
+                                        {{ form.motorcycle_type }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        {% if form.color.errors %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {% for error in form.color.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <label for="{{ form.color.id_for_label }}">{{ form.color.label }}</label>
+                                        <div class="position-relative">
+                                            {{ form.color }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="d-flex justify-content-center">
+                    <button class="btn btn-info w-50 my-4 show-more-options-btn">Show more options</button>
+                </div>
+                <div id="more-options" style="display: none;">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group">
+                                {% if form.description.errors %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {% for error in form.description.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+                                {{ form.description }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card my-3">
+                        <div class="card-header">
+                            <p style="font-size: 17px;" class="m-0">Body options</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        {% if form.num_of_seats.errors %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {% for error in form.num_of_seats.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <label for="{{ form.num_of_seats.id_for_label }}">{{ form.num_of_seats.label }}</label>
+                                        {{ form.num_of_seats }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {% if form.color_option.errors %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {% for error in form.color_option.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <label for="{{ form.color_option.id_for_label }}">{{ form.color_option.label }}</label>
+                                <div class="position-relative">
+                                    {{ form.color_option }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card my-3">
+                        <div class="card-header">
+                            <p style="font-size: 17px;" class="m-0">Technical data</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        {% if form.drive.errors %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {% for error in form.drive.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <label for="{{ form.drive.id_for_label }}">{{ form.drive.label }}</label>
+                                        {{ form.drive }}
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        {% if form.co2_emission.errors %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {% for error in form.co2_emission.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <label for="{{ form.co2_emission.id_for_label }}">{{ form.co2_emission.label }}</label>
+                                        {{ form.co2_emission }}
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 my-auto">
+                                    <div class="form-group">
+                                        {% if form.particulate_filter.errors %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {% for error in form.particulate_filter.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <div class="custom-control custom-control-inline custom-checkbox">
+                                            {{ form.particulate_filter }}
+                                            <label class="custom-control-label" for="{{ form.particulate_filter.id_for_label }}">{{ form.particulate_filter.label }}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card my-3">
+                        <div class="card-header">
+                            <p style="font-size: 17px;" class="m-0">Story</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        {% if form.warranty.errors %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {% for error in form.warranty.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <label for="{{ form.warranty.id_for_label }}">{{ form.warranty.label }}</label>
+                                        {{ form.warranty }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        {% if form.drive.errors %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {% for error in form.drive.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <label for="{{ form.drive.id_for_label }}">{{ form.drive.label }}</label>
+                                        {{ form.drive }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+                <div class="card shadow-sm mt-2">
+                    <div class="card-body row">
+                        <div class="form-group col-md-7 m-0">
+                            {% if form.youtube_link.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {% for error in form.youtube_link.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <label for="{{ form.youtube_link.id_for_label }}">{{ form.youtube_link.label }}</label>
+                            <div class="position-relative">
+                                {{ form.youtube_link }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm mt-3">
+                    <div class="card-header">
+                        <h6 class="m-0">Price</h6>
+                    </div>
+                    <div class="card-body row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="{{ form.price.id_for_label }}">{{ form.price.label }}</label>
+                                <div class="input-group">
+                                    {{ form.price }}
+                                    <div class="input-group-append">
+                                        {{ form.currency }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    {{ form.price_netto }}
+                                    <label class="custom-control-label" for="{{ form.price_netto.id_for_label }}">{{ form.price_netto.label }}</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    {{ form.to_negotiate }}
+                                    <label class="custom-control-label" for="{{ form.to_negotiate.id_for_label }}">{{ form.to_negotiate.label }}</label>
+                                </div>
+                            </div>
+                        </div>
+                        {% if view.kwargs.section == 'car' %}
+                            <div class="col-md-6">
+                                <p>The lowest average price - <span id="lowest-average-price">0</span></p>
+                                <p>The greatest average price - <span id="greatest-average-price">0</span></p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="card shadow-sm mt-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    {% if form.first_name.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {% for error in form.first_name.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <div class="animated-label">
+                                        <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+                                        {{ form.first_name }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    {% if form.email.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {% for error in form.email.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <div class="animated-label">
+                                        <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                                        {{ form.email }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    {% if form.phonenumber.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {% for error in form.phonenumber.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <div class="animated-label">
+                                        <label for="{{ form.phonenumber.id_for_label }}">{{ form.phonenumber.label }}</label>
+                                        {{ form.phonenumber }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    {% if form.city.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {% for error in form.city.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <div class="animated-label">
+                                        <label for="{{ form.city.id_for_label }}">{{ form.city.label }}</label>
+                                        <div class="position-relative">
+                                            {{ form.city }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer w-100 bg-white border-top-1" style="position: fixed; bottom: 0; left: 0;">
+                    <div class="container">
+                        <div class="col-sm-9">
+                            <a href="{% url 'products:promo-list' %}" class="btn btn-link text-decoration-none" style="font-size: 17px; font-weight: 600;">Cancle</a>
+                            <button class="btn btn-success px-5 float-right">Go to summery</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-3 d-none d-lg-block">
+            <div class="card shadow-sm bg-dark text-white">
+                <div class="card-body">
+                    <i class="fas fa-phone fa-2x rounded-circle" style="color: #fff; padding: 10px; background-color: #25f1f8; position: absolute; right: 45%; top: -35px;"></i>
+
+                    <small class="text-muted">{% trans 'You need help?' %}</small>
+                    <h5 style="font-weight: 450;">{% trans 'Customer service office' %}</h5>
+
+                    <p>+48 500 484 315</p>
+                    <small class="text-muted">From mo. to fri. at 8 a.m and 5 p.m</small>
+                    <p>awheele@help.com</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+    <script>
+        close_with_x()
+        set_locks()
+
+        $(document).ready(function() {
+            $('.show-more-options-btn').click(function(e) {
+                e.preventDefault()
+                $('#more-options').css('display', 'block')
+            })
+
+            $('#{{ form.city.id_for_label }}').click(function() {
+                navigator.geolocation.getCurrentPosition(position => {
+                    $.ajax({
+                        method: 'GET',
+                        url: "{% url 'products:get-city-location' %}",
+                        data: {
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude,
+                        },
+                        success: data => {
+                            $(`#{{ form.city.id_for_label }} option[value=${data['nearest_city']}]`).attr('selected', 'selected')
+                            $('#{{ form.city.id_for_label }}').parent().parent().find('label').addClass('active')
+                        }
+                    })
+                })
+            })
+
+            let average_price_fileds = []
+            for(let i=0; i<$('.average-price-required').length; i++) {
+                average_price_fileds.push(false)
+            }
+
+            $('.average-price-required').each(function() { // :input[required]:visible
+                let is_filled = false
+
+                $(this).change(() => {
+                    if($(this).text() || $(this).val()) {
+                        if(!is_filled) {
+                            average_price_fileds[average_price_fileds.findIndex(element => element == false)] = true
+                            is_filled = true
+                        }
+                    } else {
+                        if(is_filled) {
+                            average_price_fileds[average_price_fileds.findIndex(element => element == true)] = false
+                            is_filled = false
+                        }
+                    }
+
+                    const $delete_select = $(this).parent().find('.delete-select').find('.close')
+                    if($delete_select) {
+                        $delete_select.click(() => {
+                            average_price_fileds[average_price_fileds.findIndex(element => element == true)] = false
+                            is_filled = false
+                            $('#lowest-average-price').html('0')
+                            $('#greatest-average-price').html('0')
+                        })
+                    }
+
+                    // if(average_price_fileds.every(element => element == true)) {
+                        $.ajax({
+                            method: 'GET',
+                            data: {
+                                'year_production': $('#{{ form.year_production.id_for_label }}').val(),
+                                'mark': $('#{{ form.mark.id_for_label }}').val(),
+                                'fuel_type': $('#{{ form.fuel_type.id_for_label }}').val(),
+                                'power': $('#{{ form.power.id_for_label }}').val(),
+                                'num_of_doors': $('#{{ form.num_of_doors.id_for_label }}').val(),
+                                'gearbox': $('#{{ form.gearbox.id_for_label }}').val(),
+                                'mileage': $('#{{ form.mileage.id_for_label }}').val(),
+                            },
+                            url: "{% url 'products:get-average-price' product_class=view.kwargs.section %}",
+                            success: data => {
+                                $('#lowest-average-price').html(data['lowest_average_price'])
+                                $('#greatest-average-price').html(data['greatest_average_price'])
+                            },
+                            error: err => {
+                                $('#lowest-average-price').html('0')
+                                $('#greatest-average-price').html('0')
+                            }
+                        })
+                    // } else {
+                    //     $('#lowest-average-price').html('0')
+                    //     $('#greatest-average-price').html('0')
+                    // }
+                })
+            })
+        })
+    </script>
+{% endblock %}

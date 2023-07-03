@@ -1,0 +1,66 @@
+.product-images {
+    position: relative;
+}
+
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    padding: 16px;
+    background-color: rgba(53, 49, 49, 0.8);
+    transition: background-color 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    -webkit-user-select: none;
+
+    i {
+        color: #fff;
+    }
+
+    /* On hover, add a black background color with a little bit see-through */
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+}
+
+/* Position the "next button" to the right */
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+    background-color: #abcdef;
+    color: #000;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 8px 12px;
+    position: absolute;
+    top: 0;
+}
+
+img {
+    &.demo {
+        border: 1px solid black;
+        margin: 0 1px 0 1px;
+        object-fit: cover;
+        opacity: 0.55;
+        cursor: pointer;
+        &:hover, &.active-slide {
+            border: none;
+            opacity: 1;
+        }
+    }
+    &.product-img {
+        height: 43vh;
+        width: 100%;
+        // vertical-align: middle;
+        object-fit: contain;
+    }
+}
+.demo-images {
+    display: flex;
+    align-items: baseline;
+    overflow: auto;
+}

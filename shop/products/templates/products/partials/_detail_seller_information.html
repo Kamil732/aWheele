@@ -1,0 +1,18 @@
+{% load i18n %}
+
+<small class="text-muted" style="font-size: 10px; letter-spacing: 1px; font-weight: 600;">{% trans 'PRIVATE PERSON' %}</small>
+<h4>{{ product.first_name }}</h4>
+<hr>
+
+<p>{% blocktrans with seller_first_login=product.seller.date_joined|date:"Y" %}Sells on aWheele since {{ seller_first_login }}{% endblocktrans %}</p>
+<hr>
+<div class="row px-2">
+    <div class="col-sm-2 d-flex justify-content-center align-items-center">
+        <i class="fas fa-map-marker-alt fa-2x" style="color: rgba(55, 196, 118, 0.651);"></i>
+    </div>
+    <div class="col-sm-10">
+        <h6>{% trans 'Location' %}</h6>
+        <p style="font-size: 13px;">{{ product.city }}</p>
+        <a href="#map">{% trans 'Show map' %}</a>
+    </div>
+</div>

@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block title %}{% endblock %}
+
+{% load static %}
+{% load humanize %}
+{% load translate %}
+{% load classes %}
+
+{% block body_content %}
+
+{% url 'accounts:my-products' status='active' as my_active_products %}
+{% url 'accounts:my-products' status='pending' as my_pending_products %}
+
+<div class="container mt-5">
+    <h3 class="font-weight-normal text-center" style="letter-spacing: 1px;">Your offers</h3>
+
+    <div class="btn-group btn-group-justified mb-5 d-flex justify-content-center">
+        <a href="#" class="btn btn-light shadow-sm px-5 py-3 mr-3">Statistics</a>
+        <a href="{% url 'accounts:my-products' status='active' %}" class="btn btn-light shadow-sm px-5 py-3 mr-3 {% if request.path == my_active_products or request.path == my_pending_products %}bg-primary text-white active" aria-disabled="true" style="cursor: default;"{% else %}"{% endif %}>Announcements</a>
+        <a href="#" class="btn btn-light shadow-sm px-5 py-3 mr-3">Messages</a>
+        <a href="#" class="btn btn-light shadow-sm px-5 py-3 mr-3">Payment</a>
+        <a href="#" class="btn btn-light shadow-sm px-5 py-3">Settings</a>
+    </div>
+
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link px-5 py-3 text-dark {% if request.path == my_active_products %}active{% endif %}" href="{{ my_active_products }}">
+                Active
+                {% if active_products_count %}({{ active_products_count }}){% endif %}
+            </a>
+        </li>
+        {% if pending_products_count %}
+            <li class="nav-item">
+                <a class="nav-link px-5 py-3 mx-2 text-dark {% if request.path == my_pending_products %}active{% endif %}" href="{{ my_pending_products }}">
+                    Pending
+                    {% if pending_products_count %}({{ pending_products_count }}){% endif %}
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</div>
+
+<div class="bg-white">
+    <div class="card-body container">
+        {% if products.exists %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" colspan="2">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                        <tr class="observed-product" id="product{{ forloop.counter }}" data-url="{% url 'products:delete-product' product_class=product|to_class_name|lower product_id=product.id %}"> <!--  data-product-class="{{ product|to_class_name|lower }}" data-product-id="{{ product.id }}" -->
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>
+                                <a href="{% url 'products:detail' section=product|to_class_name|lower product_slug=product.slug %}" class="mx-auto">
+                                    <img src="{% if product.images.exists %}{{ product.images.first }}{% else %}{% static 'images/imageNotFound.png' %}{% endif %}" class="shadow-sm" style="object-fit: fill;" width="148" alt="{{ product }}">
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{% url 'products:detail' section=product|to_class_name|lower product_slug=product.slug %}" style="font-size: 22px;" class="title text-decoration-none">{{ product.get_title|truncatechars:40 }}</a>
+
+                                <br>
+                                <button class="btn btn-success btn-sm shadow-sm mt-2 mr-2">
+                                    Make unique
+                                </button>
+                            </td>
+                            <td>
+                                <p class="product-price font-weight-bold" style="background: transparent; position: static; padding-left: 0;">
+                                    {{ product.price|floatformat:0|intcomma }}
+                                    <sup>{{ product.currency }}</sup>
+                                </p>
+                            </td>
+                            <td>
+                                <button class="btn btn-light shadow-sm mr-2">
+                                    Edit
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-light shadow-sm">
+                                    View
+                                    <i class="far fa-eye"></i>
+                                </button>
+
+                                <br> <br>
+                                <button class="btn btn-outline-danger shadow-sm mr-2 delete-product" data-product="{{ forloop.counter }}">
+                                    <i class="fas fa-trash-alt"></i>
+                                    Delete
+                                </button>
+                                <button class="btn btn-outline-success shadow-sm mr-2">
+                                    Active
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+                <div class="text-center">
+                    <i class="fas fa-car-alt fa-7x mx-3"></i>
+                    <i class="fas fa-motorcycle fa-7x mx-3"></i>
+                    <i class="fas fa-tools fa-7x mx-3"></i>
+                    <h1>
+                        {% if view.kwargs.status == 'active' %}
+                            {% trans "Currently you don't have any active product" %}
+                        {% elif view.kwargs.status == 'pending' %}
+                            {% trans "Currently you don't have any pending product" %}
+                        {% endif %}
+                    </h1>
+                    <a type="button" href="{% url 'products:kind-of-offer-to-create' %}" class="btn btn-danger px-4 py-2">
+                        <i class="fas fa-plus fa-lg"></i>
+                        Add an announcement
+                    </a>
+                </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+<script>
+    $(document).ready(function() {
+        $('.delete-product').click(function() {
+            const $element = $('#product' + $(this).attr('data-product'))
+            const url = $element.attr('data-url')
+
+            $.ajax({
+                method: 'GET',
+                url: url,
+                success: data => {
+                    console.log(data)
+                    $element.fadeOut(500)
+                }
+            })
+        })
+    })
+</script>
+
+{% endblock %}

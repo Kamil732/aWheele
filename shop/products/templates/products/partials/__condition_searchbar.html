@@ -1,0 +1,15 @@
+{% load i18n %}
+
+<h6>Condition:</h6>
+<div class="custom-control custom-radio custom-control-inline">
+    <input type="radio" id="everything" value="" name="condition" class="custom-control-input" {% if not request.GET.condition %}checked{% endif %}>
+    <label class="custom-control-label" for="everything">{% trans 'Everything' %}</label>
+</div>
+<div class="custom-control custom-radio custom-control-inline">
+    <input type="radio" id="brand_new" value="brand_new" name="condition" class="custom-control-input" {% if request.GET.condition == 'brand_new' %}checked{% endif %}>
+    <label class="custom-control-label" for="brand_new">{% trans 'Brand new' %}</label>
+</div>
+<div class="custom-control custom-radio custom-control-inline">
+    <input type="radio" id="used" value="used" name="condition" class="custom-control-input" {% if request.GET.condition == 'used' %}checked{% endif %}>
+    <label class="custom-control-label" for="used">{% trans 'Used' %}</label>
+</div>

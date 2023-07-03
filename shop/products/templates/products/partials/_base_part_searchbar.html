@@ -1,0 +1,41 @@
+{% load i18n %}
+
+<div class="form-group">
+    <label for="part_type">{% trans 'Type of part' %}</label>
+    <div class="position-relative">
+        <select name="part_type" class="form-control close-with-x" id="part_type">
+            <option value="" hidden>{% trans 'Type of part' %}...</option>
+            {% for value, option in part_type %}
+                <option value="{{ value }}" {% if request.GET.part_type == value %}selected{% endif %}>{{ option }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="form-group">
+            <label for="mark">{% trans 'Mark' %}</label>
+            <div class="position-relative">
+                <select name="mark" class="form-control close-with-x" id="category">
+                    <option value="" hidden>{% trans 'Mark of the part' %}...</option>
+                    {% for value, option in marks %}
+                        <option value="{{ value }}" {% if request.GET.mark == value %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <label for="price-div">{% trans 'Price' %}</label>
+            <div class="input-group" id="price-div">
+                <input type="number" class="form-control valid-number-field-from" id="from_price" name="from_price" min="0" placeholder="{% trans 'From' %}..." {% if request.GET.from_price %}value="{{ request.GET.from_price }}"{% endif %}>
+                <input type="number" class="form-control valid-number-field-to" id="to_price" name="to_price" min="0" placeholder="{% trans 'To' %}..." {% if request.GET.to_price %}value="{{ request.GET.to_price }}"{% endif %}>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="custom-control custom-checkbox">
+    <input type="checkbox" class="custom-control-input" name="delivery" id="delivery" value="yes" {% if request.GET.delivery %}checked{% endif %}>
+    <label class="custom-control-label" for="delivery">{% trans 'Delivery' %}</label>
+</div>

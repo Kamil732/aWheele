@@ -1,0 +1,293 @@
+{% extends 'base.html' %}
+{% block title %}Title{% endblock %}
+
+{% load i18n %}
+{% load static %}
+{% load translate %}
+{% load humanize %}
+{% load classes %}
+
+{% block extra_css %}
+    <style>
+        .observed-prodcut-text {
+            background-color: #329156;
+            padding: 6px 0 6px 0;
+        }
+        #save-products {
+            background-color: #f0ed52bd;
+        }
+    </style>
+{% endblock %}
+
+{% block body_content %}
+
+{% if user.is_anonymous %}
+    <div class="alert mt-3" style="background-color: #3434e9;">
+        <a href="{% url 'accounts:login' %}?next={% url 'products:observed-offers' %}" style="color: #fff; text-decoration: none;">
+            <div class="float-left border-right mr-2 pr-2">
+                <i class="fas fa-user-alt fa-5x"></i>
+            </div>
+            <h4 class="alert-heading">{% trans 'Login' %}</h4>
+            <p class="mb-0">
+                {% blocktrans %}
+                    if you want to save your observed list, <br>
+                    because now this is only avalble on this browser
+                {% endblocktrans %}
+            </p>
+        </a>
+    </div>
+{% elif cookie_products.exists %}
+    <div class="modal fade bd-example-modal-lg" id="anonymous-products" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="text-center py-3">
+                    <h5 class="modal-title">
+                        {% trans 'It seems you added some offers to observed list when you were not loged in' %} <br>
+                        <span class="text-center text-secondary" style="letter-spacing: 1px;">{% trans 'Would you like save them?' %}</span>
+                    </h5>
+                    <hr>
+                </div>
+                <div class="modal-body">
+                    {% for product in cookie_products %}
+                        <div class="bg-white p-0 m-4 position-relative row">
+                            <a href="{% url 'products:detail' section=product|to_class_name|lower product_slug=product.slug %}" class="mx-auto">
+                                <img src="{% if product.images.all %}{{ product.images.all.0 }}{% else %}{% static 'images/imageNotFound.png' %}{% endif %}" width="200" height="150" style="object-fit: cover;" class="rounded-lg" alt="{{ product }}">
+                            </a>
+                            <div class="col">
+                                <a href="{% url 'products:detail' section=product|to_class_name|lower product_slug=product.slug %}" style="font-size: 22px;" class="title">{{ product.get_title|truncatechars:40 }}</a>
+                                <div class="text-muted" style="font-size: small;">
+                                    <span>{{ product|to_class_name|translate }}</span>
+                                    &nbsp; &bullet; &nbsp;
+                                    {% if product|to_class_name == 'Car' or product|to_class_name == 'Motorcycle' %}
+                                        <span>{{ product.get_mark_display }}</span>
+                                        &nbsp; &bullet; &nbsp;
+                                        <span>{{ product.year_production }}</span>
+                                        &nbsp; &bullet; &nbsp;
+                                        <span>{{ product.get_mileage_display }} km</span>
+                                        {% if product|to_class_name == 'Car' %}
+                                            &nbsp; &bullet; &nbsp;
+                                            <span>{{ product.get_fuel_type_display }}</span>
+                                        {% elif product|to_class_name == 'Motorcycle' %}
+                                            &nbsp; &bullet; &nbsp;
+                                            <span>{{ product.get_motorcycle_type_display }}</span>
+                                        {% endif %}
+                                    {% elif product|to_class_name == 'Part' %}
+                                        {% if product.mark %}
+                                            <span>{{ product.get_mark_display }}</span>
+                                            &nbsp; &bullet; &nbsp;
+                                        {% endif %}
+                                        <span>{{ product.get_part_type_display }}</span>
+                                    {% endif %}
+                                </div>
+                                <p class="product-price" style="background: transparent; position: static;">
+                                    {{ product.price|floatformat:0|intcomma }}
+                                    <sup>{{ product.currency }}</sup>
+                                </p>
+                            </div>
+                        </div>
+                        {% if forloop.counter < cookie_products.count %}<hr class="my-3">{% endif %}
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary px-3" data-dismiss="modal">{% trans "Don't save" %}</button>
+                    <button class="btn btn-success px-5" id="save-offers">{% trans 'Save' %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<div class="observed-prodcut-text mt-5">
+    <h2 class="text-center text-white">{% trans 'Observed offers' %} (<span id="observed_products_count">{{ observed_products_count  }}</span>)</h2>
+</div>
+<div class="container position-relative observed-products">
+    {% if products.exists %}
+        <div class="card mt-5">
+            <div class="card-body">
+                {% for product in products %}
+                    <div class="observed-product" data-id="{{ forloop.counter }}">
+                        <div class="bg-white p-0 m-4 row">
+                            <a href="{% url 'products:detail' section=product|to_class_name|lower product_slug=product.slug %}" class="mx-auto">
+                                <img src="{% if product.images.exists %}{{ product.images.first }}{% else %}{% static 'images/imageNotFound.png' %}{% endif %}" class="rounded-lg" style="object-fit: cover;" height="150" width="190" alt="{{ product }}">
+                            </a>
+                            <div class="col">
+                                <a href="{% url 'products:detail' section=product|to_class_name|lower product_slug=product.slug %}" style="font-size: 22px;" class="title text-decoration-none">{{ product.get_title|truncatechars:40 }}</a>
+                                <button class="close" data-url="{% url 'products:remove-observed-offer' section=product|to_class_name|lower product_id=product.id %}">
+                                    <i class="far fa-trash-alt p-2 rounded" style="background-color: #da3b3b;"></i>
+                                </button>
+                                <div class="text-muted" style="font-size: small;">
+                                    <span>{{ product|to_class_name|translate }}<span>
+                                    &nbsp; &bullet; &nbsp;
+                                    {% if product|to_class_name|lower == 'car' or product|to_class_name|lower == 'motorcycle' %}
+                                        <span>{{ product.get_mark_display }}</span>
+                                        &nbsp; &bullet; &nbsp;
+                                        <span>{{ product.year_production }}</span>
+                                        &nbsp; &bullet; &nbsp;
+                                        <span>{{ product.mileage }} km</span>
+                                        {% if product|to_class_name|lower == 'car' %}
+                                            &nbsp; &bullet; &nbsp;
+                                            <span>{{ product.get_fuel_type_display }}</span>
+                                        {% elif product|to_class_name|lower == 'motorcycle' %}
+                                            &nbsp; &bullet; &nbsp;
+                                            <span>{{ product.get_motorcycle_type_display }}</span>
+                                        {% endif %}
+                                    {% elif product|to_class_name|lower == 'part' %}
+                                        {% if product.mark %}
+                                            <span>{{ product.get_mark_display }}</span>
+                                            &nbsp; &bullet; &nbsp;
+                                        {% endif %}
+                                        <span>{{ product.get_part_type_display }}</span>
+                                    {% endif %}
+                                </div>
+                                <p class="product-price" style="background: transparent; position: static; padding-left: 0;">
+                                    {{ product.price|floatformat:0|intcomma }}
+                                    <sup>{{ product.currency }}</sup>
+                                </p>
+                                <p>
+                                    <i class="fas fa-map-marker-alt fa-lg" style="color: rgba(55, 196, 118, 0.651);"></i>
+                                    {{ product.city }}
+                                </p>
+                            </div>
+                        </div>
+                        {% if forloop.counter < products.count %}<hr class="my-3">{% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% include 'partials/_paginator.html' %}
+    {% else %}
+        <div class="card mt-5">
+            <div class="card-body text-center">
+                <i class="fas fa-car-alt fa-5x mx-3"></i>
+                <i class="fas fa-motorcycle fa-5x mx-3"></i>
+                <i class="fas fa-tools fa-5x mx-3"></i>
+                <h1>{% trans "You don't observe any offer" %}</h1>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block extra_js %}
+    {% if cookie_products %}
+        <script>
+            const products = $('#anonymous-products')
+            products.modal('show')
+            products.modal({
+                backdrop: 'static',
+            })
+
+            function delete_observed_products() {
+                deleteCookie('observed_cars')
+                deleteCookie('observed_parts')
+                deleteCookie('observed_motorcycles')
+            }
+
+            products.on('hidden.bs.modal', function() {
+                delete_observed_products()
+                products.remove()
+            })
+            $('#save-offers').click(function() {
+                $.ajax({
+                    method: 'GET',
+                    url: "{% url 'products:transport-observed-offers' %}",
+                    dataType: 'json',
+                    success: function(data) {
+                        // products.modal('hide')
+                        delete_observed_products()
+                        location.reload()
+                    }
+                })
+            })
+        </script>
+    {% endif %}
+    <script>
+        $(document).ready(function() {
+            function get_no_products_container() {
+                return `
+                    <div class="card mt-5">
+                        <div class="card-body text-center">
+                            <i class="fas fa-car-alt fa-5x mx-3"></i>
+                            <i class="fas fa-motorcycle fa-5x mx-3"></i>
+                            <i class="fas fa-tools fa-5x mx-3"></i>
+                            <h1>{% trans "You don't observe any offer" %}</h1>
+                        </div>
+                    </div>
+                `
+            }
+
+            $('.close').each(function() {
+                $(this).click(function() {
+                    remove_url = $(this).attr('data-url')
+
+                    $.ajax({
+                        method: 'GET',
+                        url: remove_url,
+                        dataType: 'json',
+                        success: (data, text, xhr) => {
+                            if(!xhr.status == 200 || text != 'success') {
+                                alert('Error')
+                            }
+                            const $product_container = $(this).parent().parent().parent()
+                            if(data['observed_list_name'] && data['product_id']) {
+                                let observed_list = getCookie(data['observed_list_name'])
+                                const observed_list_array = observed_list.split(',')
+                                if (observed_list_array[0] == data['product_id']) {
+                                    if (observed_list_array.length == 1) deleteCookie(data['observed_list_name'])
+                                    else setCookie(data['observed_list_name'], observed_list.replace(data['product_id'] + ',', ''))
+                                }
+                                else setCookie(data['observed_list_name'], observed_list.replace(',' + data['product_id'], ''))
+
+                                $product_container.fadeOut(350, () => {
+                                    observed_cars = getCookie('observed_cars')
+                                    observed_parts = getCookie('observed_parts')
+                                    observed_motorcycles = getCookie('observed_motorcycles')
+                                    every_observed_list = observed_cars + observed_parts + observed_motorcycles
+
+                                    if (!every_observed_list) $('.observed-products').html(get_no_products_container())
+                                    $product_container.remove()
+                                })
+                            }
+
+                            else $product_container.fadeOut(350, () => {
+                                if (data['last_item']) $('.observed-products').html(get_no_products_container())
+                                $product_container.remove()
+                            })
+
+                            const $observed_products_count = $('#observed_products_count')
+                            if ($product_container.attr('data-id') == $observed_products_count.text()) {
+                                $product_container.prev().find('hr').remove()
+                            } else {
+                                $('.observed-product').each(function(index) {
+                                    $(this).attr('data-id', index)
+                                })
+                            }
+                            $observed_products_count.html($observed_products_count.text() - 1)
+                        },
+                        error: function(request, status, error) {
+                            $('body').append(`
+                                <div class="modal fade d-flex justify-content-center" style="height: auto; width: auto;" id="error-modal" aria-hidden="true" data-backdrop="false">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <p>{% trans 'Not expected error has occurred. Try again' %}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `)
+                            $('#error-modal').modal('show')
+                            $('body').css('overflow', 'auto')
+                            setTimeout(function() {
+                                $('#error-modal').modal('hide')
+                            }, 4000)
+                        }
+                    })
+                })
+            })
+        })
+    </script>
+{% endblock %}

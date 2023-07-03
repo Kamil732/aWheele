@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Login Page{% endblock %}
+
+{% load i18n %}
+{% load static %}
+
+{% block body_content %}
+
+<div class="container2">
+    <div class="container">
+        <div class="card shadow-sm rounded-lg" id="navbar">
+            <div class="card-body">
+                <form method="post"> {% csrf_token %}
+                    <h1 class="mb-4">{% trans 'Login' %}</h1>
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% for field in form %}
+                        <div class="form-group">
+                            {% if field.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {% for error in field.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="animated-label">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{ field }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <button class="btn btn-info px-4">{% trans 'Login' %}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}{% endblock %}

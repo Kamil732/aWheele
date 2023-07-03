@@ -1,0 +1,167 @@
+{% load i18n %}
+
+<div class="row">
+    <div class="col">
+        <div class="form-group">
+            <label for="mark">{% trans 'Mark' %}</label>
+            <div class="position-relative">
+                <select name="mark" class="form-control close-with-x" id="mark">
+                    <option value="" hidden>{% trans 'Mark of the car' %}...</option>
+                    {% for value, option in marks %}
+                        <option value="{{ value }}" {% if request.GET.mark == value %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <label for="price-div">{% trans 'Price' %}</label>
+            <div class="input-group" id="price-div">
+                <input type="number" class="form-control valid-number-field-from" id="from_price" name="from_price" min="0" placeholder="{% trans 'From' %}..." {% if request.GET.from_price %}value="{{ request.GET.from_price }}"{% endif %}>
+                <input type="number" class="form-control valid-number-field-to" id="to_price" name="to_price" min="0" placeholder="{% trans 'To' %}..." {% if request.GET.to_price %}value="{{ request.GET.to_price }}"{% endif %}>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="form-group">
+            <label for="year_production">{% trans 'Year of production' %}</label>
+            <div class="input-group">
+                <select id="from_year_production" name="from_year_production" class="form-control valid-select-field-from close-with-x">
+                    <option value="" hidden>{% trans 'From' %}...</option>
+                    {% for value, option in year_production %}
+                        <option value="{{ value }}" {% if request.GET.from_year_production == value %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+                <select id="to_year_production" name="to_year_production" class="form-control valid-select-field-to close-with-x">
+                    <option value="" hidden>{% trans 'To' %}...</option>
+                    {% for value, option in year_production %}
+                        <option value="{{ value }}" {% if request.GET.to_year_production == value %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <label for="mileage">{% trans 'Mileage' %}</label>
+            <div class="input-group" id="mileage">
+                <input type="number" class="form-control valid-number-field-from" id="from_mileage" name="from_mileage" placeholder="{% trans 'From' %}..." min="0" {% if request.GET.from_mileage %}value="{{ request.GET.from_mileage }}"{% endif %}>
+                <input type="number" class="form-control valid-number-field-to" id="to_mileage" name="to_mileage" placeholder="{% trans 'To' %}..." min="0" {% if request.GET.to_mileage %}value="{{ request.GET.to_mileage }}"{% endif %}>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="form-group">
+            <label for="fuel_type">{% trans 'Fuel type' %}</label>
+            <div class="position-relative">
+                <select name="fuel_type" class="form-control close-with-x" id="fuel_type">
+                    <option value="" hidden>{% trans 'Fuel type' %}...</option>
+                    {% for value, option in fuel_type %}
+                        <option value="{{ value }}" {% if request.GET.fuel_type == value %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <label for="power">{% trans 'Power' %}</label>
+            <div class="input-group" id="power">
+                <input type="number" class="form-control valid-number-field-from" id="from_power" name="from_power" placeholder="{% trans 'From' %}..." min="0" {% if request.GET.from_power %}value="{{ request.GET.from_power }}"{% endif %}>
+                <input type="number" class="form-control valid-number-field-to" id="to_power" name="to_power" placeholder="{% trans 'To' %}..." min="0" {% if request.GET.to_power %}value="{{ request.GET.to_power }}"{% endif %}>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="form-group">
+            <label for="country_of_origin">{% trans 'Country of origin' %}</label>
+            <div class="position-relative">
+                <select name="country_of_origin" class="form-control close-with-x" id="country_of_origin">
+                    <option value="" hidden>{% trans 'Country of origin' %}...</option>
+                    {% for value, option in countries.items %}
+                        <option value="{{ value }}" {% if request.GET.country_of_origin == value %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <label for="color">{% trans 'Color' %}</label>
+            <div class="position-relative">
+                <select name="color" class="form-control close-with-x" id="color">
+                    <option value="" hidden>{% trans 'Color' %}...</option>
+                    {% for value, option in colors %}
+                        <option value="{{ value }}" {% if request.GET.color == value %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="form-group">
+            <label for="gearbox">{% trans 'Gearbox' %}</label>
+            <div class="position-relative">
+                <select name="gearbox" class="form-control close-with-x" id="gearbox">
+                    <option value="" hidden>{% trans 'Gearbox' %}...</option>
+                    {% for value, option in gearboxes %}
+                        <option value="{{ value }}" {% if request.GET.gearbox == value %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <label for="drive">{% trans 'Drive' %}</label>
+            <div class="position-relative">
+                <select name="drive" class="form-control close-with-x" id="drive">
+                    <option value="" hidden>{% trans 'Drive' %}...</option>
+                    {% for value, option in drives %}
+                        <option value="{{ value }}" {% if request.GET.drive == value %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label for="car_type">{% trans 'Location' %}</label>
+    <div class="position-relative">
+        <select name="car_type" class="form-control close-with-x" id="car_type">
+            <option value="" hidden>{% trans 'Type of car' %}...</option>
+            {% for value, option in car_types %}
+                <option value="{{ value }}" {% if request.GET.car_type == value %}selected{% endif %}>{{ option }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+<div class="form-group">
+    <label for="location">{% trans 'Location' %}</label>
+    <div class="position-relative">
+        <select name="location" class="form-control close-with-x" id="location">
+            <option value="" hidden>{% trans 'Location' %}...</option>
+            {% for value, option in cities %}
+                <option value="{{ value }}" {% if request.GET.location == value %}selected{% endif %}>{{ option }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+<div class="custom-control custom-control-inline custom-checkbox">
+    <input type="checkbox" class="custom-control-input" name="first_owner" id="first_owner" value="True" {% if request.GET.first_owner %}checked{% endif %}>
+    <label class="custom-control-label" for="first_owner">{% trans 'First owner' %}</label>
+</div>
+<div class="custom-control custom-control-inline custom-checkbox">
+    <input type="checkbox" class="custom-control-input" name="right_hand_drive" id="right_hand_drive" value="True" {% if request.GET.right_hand_drive %}checked{% endif %}>
+    <label class="custom-control-label" for="right_hand_drive">{% trans 'Right hand drive' %}</label>
+</div>

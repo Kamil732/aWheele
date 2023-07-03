@@ -1,0 +1,23 @@
+{% load static %}
+{% load i18n %}
+
+<footer id="site-footer">
+    <div class="float-left">
+        <img src="{% static 'images/logo.png' %}" width="300" alt="" class="img-fluid">
+        <p class="footer-company-name">aWheele © 2020</p>
+    </div>
+    <div class="float-right">
+        <p class="footer-company-about">
+            <span>{% trans 'Information' %}</span>
+            {% trans 'The website was created by' %} <a href="#" class="font-weight-bold text-white">Kamil Głuchowski</a>
+
+        </p>
+        <div class="footer-icons">
+            <a href="https://www.google-play.com"><i class="fab fa-google-play"></i></a>
+            <a href="https://www.apple.com"><i class="fab fab fa-apple"></i></a>
+            <a href="https://www.youtube.com"><i class="fab fab fa-youtube"></i></a>
+            <a href="https://www.facebook.com"><i class="fa fa-facebook"></i></a>
+            <a href="https://www.instagram.com"><i class="fa fab fa-instagram"></i></a>
+        </div>
+    </div>
+</footer>

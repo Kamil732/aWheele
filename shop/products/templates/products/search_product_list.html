@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% block title %}Search List{% endblock %}
+
+{% load i18n %}
+{% load translate %}
+{% load static %}
+{% load humanize %}
+{% load classes %}
+
+{% block navbar_after %}
+
+<div class="mt-5"></div>
+
+<div class="content container-fluid mb-5">
+    <h2>{% blocktrans with offers_count=offers_count is_more_than_1=offers_count|pluralize %}We have found {{ offers_count }} offer{{ is_more_than_1 }}{% endblocktrans %}</h2>
+    <div class="row">
+        <div class="col-lg-4">
+            <nav class="position-sticky" style="z-index: 1; top: 11%;">
+                <form method="get" action="{% url 'products:search' %}" class="card mt-2 shadow-sm search-bar">
+                    <div class="card-body">
+                        <!-- Condition -->
+                        {% include 'products/partials/__condition_searchbar.html' %}
+                        <!-- Other options -->
+                        <input type="hidden" name="product_type" value="{{ request.GET.product_type }}">
+                        <div class="mt-3" id="product-search-bar"></div>
+                    </div>
+                    <div class="search-btn">
+                        <button class="btn btn-danger float-right px-4 mb-2 mr-2">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                    </div>
+                </form>
+            </nav>
+        </div>
+        <div class="col-lg-8 mt-2 px-5">
+            {% if products.exists %}
+                <div class="card-deck promo-product search-list">
+                    {% for product in products %}
+                        <div class="card position-relative {% if product.colorful_list_days >= today %}colorful-offer{% endif %}">
+                            <div class="card-img">
+                                <a href="{% url 'products:detail' section=product|to_class_name|lower product_slug=product.slug %}">
+                                    {% if product.promo_days >= today %}<div class="uniqued"></div>{% endif %}
+                                    {% if product.images.exists %}
+                                        <img src="{{ product.images.first }}" class="product-image" alt="">
+                                    {% else %}
+                                        <img src="{% static 'images/imageNotFound.png' %}" class="product-image" alt="">
+                                    {% endif %}
+                                </a>
+                                <span class="product-price">
+                                    {{ product.price|floatformat:0|intcomma }}
+                                    <sup>{{ product.currency }}</sup>
+                                </span>
+                            </div>
+                            <div class="card-body">
+                                <a draggable="false" class="text-decoration-none title" href="{% url 'products:detail' section=product|to_class_name|lower product_slug=product.slug %}">{{ product.get_title|truncatechars:26 }}</a>
+                            </div>
+                            <div class="card-footer text-muted bg-white" style="font-size: small;">
+                                <div class="float-left">
+                                    <p>
+                                        <i class="fas fa-map-marker-alt fa-lg" style="color: rgba(55, 196, 118, 0.651);"></i>
+                                        {{ product.city }}
+                                    </p>
+                                </div>
+                                <div class="float-right">
+                                    <a href="mailto:{{ product.email }}" style="color: red;"><i class="far fa-envelope fa-2x"></i></a>
+                                    {% is_in_observed_list product as product_in_observed_list %}
+                                    {% if product_in_observed_list %}
+                                        <a draggable="false" href="#" data-href="{% url 'products:remove-observed-offer' section=product|to_class_name|lower product_id=product.id %}" class="remove-observed-offer">
+                                            <i class="fas fa-star fa-2x text-primary ml-2"></i>
+                                        </a>
+                                    {% else %}
+                                        <a draggable="false" href="#" data-href="{% url 'products:add-observed-offer' section=product|to_class_name|lower product_id=product.id %}" class="add-observed-offer">
+                                            <i class="far fa-star fa-2x text-primary ml-2"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                                <br> <br>
+                                <div class="float-right">
+                                    {% if product|to_class_name|lower == 'car' or product|to_class_name|lower == 'motorcycle' %}
+                                        <span>{{ product.get_mark_display }}</span>
+                                        &nbsp; &bullet; &nbsp;
+                                        <span>{{ product.year_production }}</span>
+                                        &nbsp; &bullet; &nbsp;
+                                        <span style="white-space: nowrap;">{{ product.mileage }} km</span>
+
+                                        {% if product|to_class_name|lower == 'car' %}
+                                            &nbsp; &bullet; &nbsp;
+                                            <span>{{ product.get_fuel_type_display }}</span>
+                                        {% elif product|to_class_name == 'Motorcycle' %}
+                                            &nbsp; &bullet; &nbsp;
+                                            <span>{{ product.get_motorcycle_type_display }}</span>
+                                        {% endif %}
+
+                                    {% elif product|to_class_name|lower == 'part' %}
+                                        {% if product.mark %}
+                                            <span>{{ product.get_mark_display }}</span>
+                                            &nbsp; &bullet; &nbsp;
+                                        {% endif %}
+                                        <span>{{ product.get_part_type_display }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="card mt-5">
+                    <div class="card-body text-center">
+                        <i class="{% if request.GET.product == 'car' %}fas fa-car-alt{% elif request.GET.product == 'motorcycle' %}fas fa-motorcycle{% elif request.GET.product == 'part' %}fas fa-tools{% endif %} fa-10x"></i>
+                        <h2>{% blocktrans with product=request.GET.product|translate %}Unfortunately there's no {{ product }} which you're looking for{% endblocktrans %}</h2>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% include 'partials/_paginator.html' %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/observed_list.js' %}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#product-search-bar').html(eval('{{ request.GET.product_type }}'))
+            close_with_x()
+            set_locks()
+        })
+    </script>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% url 'accounts:register' as register %}
+{% url 'accounts:login' as login %}
+{% url 'products:observed-offers' as observed_offers %}
+{% url 'accounts:my-products' status='active' as my_active_products %}
+{% url 'accounts:my-products' status='pending' as my_pending_products %}
+
+{% load i18n %}
+{% load static %}
+
+<div class="navbar-sticky">
+    <nav class="navbar navbar-inverse navbar-expand-md navbar-light bg-light shadow-sm">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{% url 'products:promo-list' %}"><img src="{% static 'images/logo.png' %}" alt="" height="30" width="150"></a>
+        </div>
+        <button class="navbar-toggler" type="button" data-target="#navbar" data-toggle="collapse" aria-expanded="false">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse" id="navbar">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item border-left px-2">
+                    <a href="{{ observed_offers }}" class="nav-link {% if request.path == observed_offers %}active{% endif %}">
+                        <i class="fas fa-star"></i>
+                        {% trans 'Observed' %}
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item dropdown border-left px-2">
+                        <a href="#" class="nav-link dropdown-toggle {% if request.path == my_active_products or request.path == my_pending_products %}active{% endif %}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user-alt"></i>
+                            {{ user }}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item {% if request.path == my_active_products or request.path == my_pending_products %}active{% endif %}" href="{{ my_active_products }}">
+                                <i class="fas fa-house-user"></i>
+                                My aWheele
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'accounts:logout' %}"><i class="fas fa-sign-out-alt"></i> {% trans 'Logout' %}</a>
+                        </div>
+                    </li>
+                {% else %}
+                    <li class="nav-item border-left px-2">
+                        <a class="nav-link {% if request.path == register %}active{% endif %}" href="{{ register }}{% if not request.path == register and not request.path == login %}?next={{ request.get_full_path_info  }}{% endif %}"><i class="fas fa-user-plus"></i> {% trans 'Register' %}</a>
+                    </li>
+                    <li class="nav-item border-left px-2">
+                        <a class="nav-link {% if request.path == login %}active{% endif %}" href="{{ login }}{% if not request.path == register and not request.path == login  %}?next={{ request.get_full_path_info  }}{% endif %}"><i class="fas fa-plus"></i> {% trans 'Login' %}</a>
+                    </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="btn btn-primary text-white font-weight-bold h-100 nav-link" style="font-size: smaller;" role="button" href="{% url 'products:kind-of-offer-to-create' %}">
+                        <i class="fas fa-plus"></i>
+                        {% trans 'Add an announcement' %}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="alert alert-danger text-center m-0 py-1 media-fixed-bottom rounded-0" role="alert">
+        <span>
+            <strong>COVID-19: </strong>
+            <span class="text-danger">#{% trans 'stayathome' %}</span> //  {% trans 'Active information and recomendation for buyers and sellers on aWheele' %}
+        </span>
+    </div>
+</div>

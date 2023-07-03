@@ -1,0 +1,67 @@
+{% load i18n %}
+
+<div class="row">
+    <div class="col">
+        <div class="form-group">
+            <label for="mark">{% trans 'Mark' %}</label>
+            <div class="position-relative">
+                <select name="mark" class="form-control close-with-x" id="mark">
+                    <option value="" hidden>{% trans 'Mark of the car' %}...</option>
+                    {% for value, option in marks %}
+                        <option value="{{ value }}" {% if request.GET.mark == value %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <label for="price-div">{% trans 'Price' %}</label>
+            <div class="input-group" id="price-div">
+                <input type="number" class="form-control valid-number-field-from" id="from_price" name="from_price" min="0" placeholder="{% trans 'From' %}..." {% if request.GET.from_price %}value="{{ request.GET.from_price }}"{% endif %}>
+                <input type="number" class="form-control valid-number-field-to" id="to_price" name="to_price" min="0" placeholder="{% trans 'To' %}..." {% if request.GET.to_price %}value="{{ request.GET.to_price }}"{% endif %}>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="form-group">
+            <label for="year_production">{% trans 'Year of production' %}</label>
+            <div class="input-group">
+                <select id="from_year_production" name="from_year_production" class="form-control valid-select-field-from close-with-x">
+                    <option value="" hidden>{% trans 'From' %}...</option>
+                    {% for value, option in year_production %}
+                        <option value="{{ value }}" {% if request.GET.from_year_production == value %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+                <select id="to_year_production" name="to_year_production" class="form-control valid-select-field-to close-with-x">
+                    <option value="" hidden>{% trans 'To' %}...</option>
+                    {% for value, option in year_production %}
+                        <option value="{{ value }}" {% if request.GET.to_year_production == value %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <label for="mileage">{% trans 'Mileage' %}</label>
+            <div class="input-group" id="mileage">
+                <input type="number" class="form-control valid-number-field-from" id="from_mileage" name="from_mileage" placeholder="{% trans 'From' %}..." min="0" {% if request.GET.from_mileage %}value="{{ request.GET.from_mileage }}"{% endif %}>
+                <input type="number" class="form-control valid-number-field-to" id="to_mileage" name="to_mileage" placeholder="{% trans 'To' %}..." min="0" {% if request.GET.to_mileage %}value="{{ request.GET.to_mileage }}"{% endif %}>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label for="fuel_type">{% trans 'Motorcycle type' %}</label>
+    <div class="position-relative">
+        <select name="motorcycle_type" class="form-control close-with-x" id="fuel_type">
+            <option value="" hidden>{% trans 'Motorcycle type' %}...</option>
+            {% for value, option in motorcycle_type %}
+                <option value="{{ value }}" {% if request.GET.motorcycle_type == value %}selected{% endif %}>{{ option }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>

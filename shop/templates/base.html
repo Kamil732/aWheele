@@ -1,0 +1,118 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+{% block html %}
+<html lang="en">
+
+    {% block head %}
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{% block title %}Page title{% endblock %}</title>
+
+        <script src="https://kit.fontawesome.com/7faeb11aa3.js" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
+        {% block extra_css %}{% endblock %}
+    </head>
+    {% endblock %}
+
+    <body>
+        {% block body %}
+            {% block navbar %}
+                {% include 'partials/_navbar.html' %}
+            {% endblock %}
+
+            {% block navbar_after %}{% endblock %}
+            <div class="content container-fluid mb-5 px-0">
+                {% for message in messages %}
+                    <div class="alert alert-success">
+                        <p>{{ message }}</p>
+                    </div>
+                {% endfor %}
+
+                {% block body_content %}
+                    <div class="container-lg position-relative">
+                        {% block container %}{% endblock %}
+                    </div>
+                {% endblock %}
+            </div>
+
+            {% block footer %}
+                {% include 'partials/_footer.html' %}
+            {% endblock %}
+
+            <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+            <script src="{% static 'js/app.js' %}"></script>
+            <script>
+                let base_car = `
+                    {% include 'products/partials/_base_car_searchbar.html' %}
+                `
+                let base_motorcycle = `
+                    {% include 'products/partials/_base_motorcycle_searchbar.html' %}
+                `
+
+                let base_part = `
+                    {% include 'products/partials/_base_part_searchbar.html' %}
+                `
+
+                let car = `
+                    {% include 'products/partials/_car_searchbar.html' %}
+                `
+                let motorcycle = `
+                    {% include 'products/partials/_motorcycle_searchbar.html' %}
+                `
+
+                let part = `
+                    {% include 'products/partials/_part_searchbar.html' %}
+                `
+
+                function set_locks() {
+                    $('.valid-number-field-from').each(function() {
+                        const $to_num = $(this).parent().find('.valid-number-field-to')
+                        $(this).change(function() {
+                            if($(this).val() != 0) {
+                                $to_num.attr('min', $(this).val())
+                                if(parseInt($to_num.val()) < parseInt($(this).val())) $to_num.val('')
+                            } else {
+                                $to_num.attr('min', '0')
+                                $(this).val('')
+                            }
+                        })
+                    })
+                    $('.valid-number-field-to').each(function() {
+                        const $from_num = $(this).parent().find('.valid-number-field-from')
+                        $(this).change(function() {
+                            if($(this).val() != 0) {
+                                $from_num.attr('max', $(this).val())
+                                if(parseInt($(this).val()) < parseInt($from_num.val())) $from_num.val('')
+                            } else {
+                                $from_num.attr('max', '')
+                                $(this).val('')
+                            }
+                        })
+                    })
+
+                    $('.valid-select-field-from').change(function() {
+                        const $to_select = $(this).parent().find('.valid-select-field-to')
+                        if($(this).val() != '') {
+                            if(parseInt($to_select.val()) < parseInt($(this).val())) $to_select.val('')
+                        }
+                    })
+                    $('.valid-select-field-to').change(function() {
+                        const $from_select = $(this).parent().find('.valid-select-field-from')
+                        if($(this).val() != 0) {
+                            if(parseInt($from_select.val()) > parseInt($(this).val())) $from_select.val('')
+                        }
+                    })
+                }
+            </script>
+            {% block extra_js %}{% endblock %}
+        {% endblock %}
+    </body>
+</html>
+{% endblock %}

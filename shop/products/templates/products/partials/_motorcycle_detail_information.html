@@ -1,0 +1,103 @@
+{% load i18n %}
+{% load classes %}
+
+<div class="row">
+    <div class="col-sm-6">
+        <ul class="list-inline">
+            <li>
+                <div class="detail-information-container">
+                    <p>{% trans "Vehical's mark" %}</p>
+                    <span class="line"></span>
+                    <a href="{% url 'products:search' %}?product={{ product|to_class_name|lower }}&mark={{ product.mark }}">{{ product.get_mark_display }}</a>
+                </div>
+            </li>
+            <li>
+                <div class="detail-information-container">
+                    <p>{% trans "Motorcycle Type" %}</p>
+                    <span class="line"></span>
+                    <a href="{% url 'products:search' %}?product={{ product|to_class_name|lower }}&motorcycle_type={{ product.motorcycle_type }}">{{ product.get_motorcycle_type_display }}</a>
+                </div>
+            </li>
+            <li>
+                <div class="detail-information-container">
+                    <p>{% trans 'Year of production' %}</p>
+                    <span class="line"></span>
+                    <a href="{% url 'products:search' %}?product={{ product|to_class_name|lower }}&from_year_production={{ product.year_production }}&to_year_production={{ product.year_production }}">{{ product.get_year_production_display }}</a>
+                </div>
+            </li>
+            <li>
+                <div class="detail-information-container">
+                    <p>{% trans 'Mileage' %}</p>
+                    <span class="line"></span>
+                    <p>{{ product.mileage }} km</p>
+                </div>
+            </li>
+            <li>
+                <div class="detail-information-container">
+                    <p>{% trans 'Power' %}</p>
+                    <span class="line"></span>
+                    <p>{{ product.power }} km</p>
+                </div>
+            </li>
+            {% if product.youtube_link %}
+                <li>
+                    <div class="detail-information-container">
+                        <p>{% trans 'Youtube link' %}</p>
+                        <span class="line"></span>
+                        <a href="{{ product.youtube_link }}" target="_blank">{{ product.youtube_link }}</a>
+                    </div>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="col-sm-6">
+        <ul class="list-inline">
+            {% if product.country_of_origin %}
+                <li>
+                    <div class="detail-information-container">
+                        <p>{% trans 'Country of origin' %}</p>
+                        <span class="line"></span>
+                        <a href="{% url 'products:search' %}?product={{ product|to_class_name|lower }}&country_of_origin={{ product.country_of_origin }}">{{ product.get_country_of_origin_display }}</a>
+                    </div>
+                </li>
+            {% endif %}
+            <li>
+                <div class="detail-information-container">
+                    <p>{% trans 'Gearbox' %}</p>
+                    <span class="line"></span>
+                    <a href="{% url 'products:search' %}?product={{ product|to_class_name|lower }}&gearbox={{ product.gearbox }}">{{ product.get_gearbox_display }}</a>
+                </div>
+            </li>
+            <li>
+                <div class="detail-information-container">
+                    <p>{% trans 'Color' %}</p>
+                    <span class="line"></span>
+                    <a href="{% url 'products:search' %}?product={{ product|to_class_name|lower }}&color={{ product.color }}">{{ product.get_color_display }}</a>
+                </div>
+            </li>
+            {% if product.registeration_num %}
+                <li>
+                    <div class="detail-information-container">
+                        <p>{% trans 'Registeration Number' %}</p>
+                        <span class="line"></span>
+                        <p>{{ product.registeration_num }}</p>
+                    </div>
+                </li>
+            {% endif %}
+            <li>
+                <div class="detail-information-container">
+                    <p>{% trans 'First owner' %}</p>
+                    <span class="line"></span>
+                    <a href="{% url 'products:search' %}?product={{ product|to_class_name|lower }}&first_owner={{ product.first_owner }}">{{ product.first_owner|yesno:"Yes,No" }}</a>
+                </div>
+            </li>
+            <li>
+                <div class="detail-information-container">
+                    <p>{% trans 'Condition' %}</p>
+                    <span class="line"></span>
+                    <a href="{% url 'products:search' %}?product={{ product|to_class_name|lower }}&condition={{ product.condition }}">{{ product.get_condition_display }}</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

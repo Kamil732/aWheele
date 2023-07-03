@@ -1,0 +1,327 @@
+{% extends 'base.html' %}
+{% block title %}{{ product }} - aWheele.com{% endblock %}
+
+{% load i18n %}
+{% load classes %}
+{% load static %}
+{% load phonenumber %}
+{% load humanize %}
+{% load leaflet_tags %}
+
+{% block body_content %}
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    {% with product_images_exists=product.images.exists product_images=product.images.all %}
+                        <div class="product-images bg-light">
+                            {% if product_images_exists %}
+                                {% for image in product_images %}
+                                    <div class="slide">
+                                        <div class="numbertext">{{ forloop.counter }} / {{ product.images.count }}</div>
+                                        <img src="{{ image }}" class="product-img">
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="slide">
+                                    <div class="numbertext">1 / 1</div>
+                                    <img src="{% static 'images/imageNotFound.png' %}" class="product-img">
+                                </div>
+                            {% endif %}
+
+                            {% if product_images_exists %}
+                                <a class="prev" onclick="plusSlides(-1)"><i class="fas fa-chevron-left fa-2x"></i></a>
+                                <a class="next" onclick="plusSlides(1)"><i class="fas fa-chevron-right fa-2x"></i></a>
+                            {% endif %}
+                        </div>
+                        <div class="demo-images mt-2">
+                            {% if product_images_exists %}
+                                {% for image in product_images %}
+                                    <img class="demo" src="{{ image }}" onclick="currentSlide({{ forloop.counter }})" width="80" height="80" alt="{{ product.get_title }}">
+                                {% endfor %}
+                            {% else %}
+                                <img class="demo active" src="{% static 'images/imageNotFound.png' %}" width="80" height="80" alt="">
+                            {% endif %}
+                        </div>
+                    {% endwith %}
+                </div>
+            </div>
+            <div class="card my-2">
+                <div class="card-body">
+                    <div class="text-muted" style="font-size: 14px;">
+                        {% if view.kwargs.section == 'car' %}
+                            {% include 'products/partials/_car_detail_information.html' %}
+                        {% elif view.kwargs.section == 'motorcycle' %}
+                            {% include 'products/partials/_motorcycle_detail_information.html' %}
+                        {% elif view.kwargs.section == 'part' %}
+                            {% include 'products/partials/_part_detail_information.html' %}
+                        {% endif %}
+                    </div>
+                    {% if product.description %}
+                        <h3 class="my-3">{% trans 'Description' %}</h3>
+                        <p style="font-size: 15px;">{{ product.description }}</p>
+                    {% endif %}
+                    <hr class="my-4">
+                    {% if view.kwargs.section == 'car' %}
+                        <div class="row">
+                            <div class="col-lg-4 d-flex justify-content-center">
+                                <div class="position-relative" style="width: min-content;">
+                                    <svg data-testid="pe_icon_full_in" class="css-eybozu" viewBox="0 0 224 158" width="1em" height="0.705357143em" style="font-size: 212px; color: rgb(22, 36, 82);">
+                                        <defs>
+                                            <circle id="___SVG_ID__3__0___" cx="112" cy="108" r="32"></circle>
+                                            <filter id="___SVG_ID__3__1___" height="178.1%" width="178.1%" x="-39.1%" y="-35.9%">
+                                                <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                                <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="8"></feGaussianBlur>
+                                                <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0.00784313725 0 0 0 0 0.0117647059 0 0 0 0 0.0352941176 0 0 0 0.32 0"></feColorMatrix>
+                                            </filter>
+                                        </defs>
+                                        <g fill="#dcdde0" fill-rule="evenodd">
+                                            <path id="average_price_less" {% if product.price < lowest_average_price %}fill="currentColor"{% endif %} d="m.00682785 106.855729c-.14818655 2.828871 2.13459202 5.144271 5.00923475 5.144271h81.7119174c3.8659932 0 7-3.134007 7-7 0-1.343186-.3864439-2.658011-1.1132201-3.787588l-44.6316533-69.3678224c-1.5612511-2.4274775-4.8839818-3.0234867-7.2249765-1.3084399-17.4410281 12.7750997-39.19005106 46.537367-40.75130225 76.3195793z"></path>
+                                            <path id="average_price_middle" {% if product.price <= greatest_average_price and product.price >= lowest_average_price %}fill="currentColor"{% endif %} d="m117.837855 89.7797295 43.163509-70.4118268c1.581222-2.5772465.65877-6.0090392-1.964126-7.3806678-15.577252-8.14903367-30.33387-11.9872349-46.922338-11.9872349-16.6493847 0-33.3431515 3.79828611-47.3461438 11.9309909-2.4827877 1.4423871-3.300811 4.7598775-1.7796357 7.2618296l42.8994355 70.5648351c2.008299 3.3034289 6.314304 4.3533397 9.617733 2.3450414.950765-.5780117 1.750045-1.374344 2.331566-2.3229675z"></path>
+                                            <path id="average_price_greater"{% if product.price > greatest_average_price %}fill="currentColor"{% endif %} d="m223.99317 106.855729c.148188 2.828871-2.133729 5.144271-5.009279 5.144271h-81.71181c-3.865993 0-7-3.134007-7-7 0-1.343195.38645-2.65803 1.113236-3.787612l44.632032-69.3677984c1.561265-2.4274775 4.884025-3.0234867 7.224158-1.3084399 17.442065 12.7750997 39.19128 46.537367 40.751663 76.3195793z"></path>
+                                        </g>
+                                    </svg>
+                                    <div class="d-flex justify-content-around" style="margin-top: -43px;">
+                                        <span>Less</span>
+                                        <span>Above</span>
+                                    </div>
+                                    <div class="card mt-3">
+                                        <div class="card-body text-center">
+                                            <p class="m-0">Average price range</p>
+                                            <hr class="my-2">
+                                            <p class="m-0"><span id="lowest-average-price"></span> {{ product.get_currency_display }} - <span id="greatest-average-price"></span> {{ product.get_currency_display }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <p>
+                                    Cena tego samochodu jest niższa niż średnia dla podobnych pojazdów na OTOMOTO. Skontaktuj się ze sprzedającym, by dowiedzieć się więcej.
+                                    Aby właściwie oszacować średni zakres ceny dla konkretnego samochodu, analizujemy szereg czynników dotyczących pojazdu oraz porównujemy z podobnymi ogłoszeniami opublikowanymi w serwisie OTOMOTO w ciągu ostatnich 12 miesięcy.
+                                </p>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <hr class="my-4" style="height: 1px; background-color: gray;"></hr>
+                    <div class="text-muted row" style="font-size: 14px;">
+                        <div class="col-sm-4 text-center">
+                            <span>
+                                Added: <b>{{ product.pub_date|date:"H:i, d E Y" }}</b>
+                            </span>
+                        </div>
+                        <div class="col-sm-4 text-center">
+                            <span class="col">
+                                Views: <b>{{ product.views }}</b>
+                            </span>
+                        </div>
+                       <div class="col-sm-4 text-center">
+                            <span class="col">
+                                Offer's ID: <b>{{ product.id }}</b>
+                            </span>
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 my-2">
+            <div class="card">
+                <div class="card-body">
+                    <h4 style="font-size: 18px;">{{ product }}</h4>
+                    <div class="text-muted" style="font-size: 14px;">
+                        {% if view.kwargs.section == 'car' or view.kwargs.section == 'motorcycle' %}
+                            <span>{{ product.get_mark_display }}</span>
+                            &nbsp; &bullet; &nbsp;
+                            <span>{{ product.year_production }}</span>
+                            &nbsp; &bullet; &nbsp;
+                            <span>{{ product.mileage}} km</span>
+                        {% elif view.kwargs.section == 'part' %}
+                            {% if product.mark %}
+                                <span>{{ product.get_mark_display }}</span>
+                                &nbsp; &bullet; &nbsp;
+                            {% endif %}
+                            <span>{{ product.get_part_type_display }}</span>
+                        {% endif %}
+                    </div>
+                    <p class="product-price p-0 mt-2 m-0" style="background-color: transparent; position: static; font-size: 26px;">
+                        {{ product.price|floatformat:0|intcomma }}
+                        <sup>{{ product.currency }}</sup>
+                    </p>
+                    {% if product.negotiate %}
+                        <small>{% trans 'To negotiate' %}</small>
+                    {% endif %}
+                    <hr>
+
+                    {% is_in_observed_list product as product_in_observed_list %}
+                    <div class="custom-control custom-switch">
+                        {% if product_in_observed_list %}
+                            <input type="checkbox" id="remove_from_observed_list" data-href="{% url 'products:remove-observed-offer' section=view.kwargs.section product_id=product.id %}" class="custom-control-input remove-observed-offer d-flex align-items-center text-decoration-none my-2" title="remove from observed list" checked>
+                            <label class="custom-control-label title" for="remove_from_observed_list">remove from observed list</label>
+                        {% else %}
+                            <input type="checkbox" id="add_to_observed_list" data-href="{% url 'products:add-observed-offer' section=view.kwargs.section product_id=product.id %}" class="custom-control-input add-observed-offer d-flex align-items-center text-decoration-none my-2" title="add to observed list">
+                            <label class="custom-control-label title" for="add_to_observed_list">add to observed list</label>
+                        {% endif %}
+                    </div>
+                    <a role="button" href="#contact" class="btn btn-danger my-2 w-100">
+                        <i class="fas fa-envelope fa-lg"></i>
+                        {% trans 'Contact with the seller' %}
+                    </a>
+                    <button class="btn btn-outline-success my-2 w-100" id="show-phonenumber">
+                        <i class="fas fas fa-phone fa-lg"></i>
+                        <span id="phonenumber" draggable="true">{% trans "See seller's phone number" %}</span>
+                    </button>
+                </div>
+            </div>
+            <div class="card my-2">
+                <div class="card-body">
+                    {% include 'products/partials/_detail_seller_information.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-light py-4 mt-5" id="contact">
+    <div class="container-xl">
+        <div class="row">
+            <div class="col-md-7">
+                <h3>{% trans 'Send message' %}</h3>
+                <div id="escapingBallG" style="display: none;">
+                    <div id="escapingBall_1" class="escapingBallG"></div>
+                </div>
+                <form action="{% url 'products:send-email' section=view.kwargs.section product_slug=product.slug %}" method="post" id="send-email"> {% csrf_token %}
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="{{ send_email_form.email.id_for_label }}">{{ send_email_form.email.label }}</label>
+                                {{ send_email_form.email }}
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="{{ send_email_form.phonenumber.id_for_label }}">{{ send_email_form.phonenumber.label }}</label>
+                                {{ send_email_form.phonenumber }}
+                                <span class="optional-text">{{ send_email_form.phonenumber.help_text }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ send_email_form.message.id_for_label }}">{{ send_email_form.message.label }}</label>
+                        {{ send_email_form.message }}
+                    </div>
+                    <button class="btn btn-info px-5">{% trans 'Send' %}</button>
+                </form>
+            </div>
+            <div class="col-md-5 d-sm-none d-md-block">
+                <div class="card">
+                    <div class="card-body">
+                        {% include 'products/partials/_detail_seller_information.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mt-5" id="map">
+    {% leaflet_map "location" %}
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+    {% leaflet_css %}
+    {% leaflet_js %}
+    <link rel="stylesheet" href="{% static 'css/spinner.css' %}">
+    <style>
+        .leaflet-container-default {
+            z-index: 0;
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'css/slides.min.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+    <!-- <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script> -->
+    <script src="{% static 'js/slides.js' %}"></script>
+    <script src="{% static 'js/observed_list.js' %}"></script>
+    <script>
+        $(window).on('map:init', function(e) {
+            var detail = e.originalEvent ? e.originalEvent.detail : e.detail;
+            detail.map.setView([{{ product.city.latitude }}, {{ product.city.longitude }}], 10)
+            L.circle([{{ product.city.latitude }}, {{ product.city.longitude }}], {
+                color: 'blue',
+                radius: 12000,
+            }).addTo(detail.map);
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#show-phonenumber').click(function() {
+                // $(this).find('#phonenumber').html('{{ product.phonenumber|get_phonenumber }}')
+                $.ajax({
+                    method: 'GET',
+                    url: "{% url 'products:show-phonenumber' section=view.kwargs.section product_slug=view.kwargs.product_slug %}",
+                    success: data => {
+                        $(this).find('#phonenumber').html(data['phonenumber'])
+                        $(this).css({
+                            'cursor': 'default',
+                            'pointer-events': 'none',
+                        })
+                        $(this).removeClass('btn-outline-success')
+                        $(this).addClass('btn-success')
+                    }
+                })
+            })
+            $('#send-email').submit(function(e) {
+                e.preventDefault()
+
+                $.ajax({
+                    beforeSend: () => {
+                        $('#escapingBallG').css('display', 'block');
+                    },
+                    method: 'POST',
+                    url: $(this).attr('action'),
+                    data: $(this).serialize(),
+                    success: data => {
+                        $(this)[0].reset()
+                        $('#escapingBallG').css('display', 'none');
+                    }
+                })
+            })
+
+            if('{{ view.kwargs.section }}' == 'car') {
+                $.ajax({
+                    method: 'GET',
+                    data: {
+                        'year_production': '{{ product.year_production }}',
+                        'mark': '{{ product.mark }}',
+                        'fuel_type': '{{ product.fuel_type }}',
+                        'power':'{{ product.power }}',
+                        'num_of_doors': '{{ product.num_of_doors }}',
+                        'gearbox':'{{ product.gearbox }}',
+                        'mileage': '{{ product.mileage }}',
+                    },
+                    url: "{% url 'products:get-average-price' product_class=view.kwargs.section %}",
+                    success: data => {
+                        $('#lowest-average-price').html(data['lowest_average_price'])
+                        $('#greatest-average-price').html(data['greatest_average_price'])
+
+                        const product_price = parseInt('{{ product.price }}')
+                        const fill_average_price_size = element => element.attr('fill', 'currentColor')
+
+                        if(product_price < data['lowest_average_price'] && product_price >= data['lowest_average_price'] - data['lowest_average_price']*20/100) {
+                            fill_average_price_size($('#average_price_less'))
+                        } else if(product_price > data['greatest_average_price'] && product_price <= data['greatest_average_price'] + data['greatest_average_price']*20/100) {
+                            fill_average_price_size($('#average_price_greater'))
+                        } else if(product_price >= data['lowest_average_price'] && product_price <= data['greatest_average_price']) {
+                            fill_average_price_size($('#average_price_middle'))
+                        } else {
+                            alert('fix error :D')
+                        }
+                    }
+                })
+            }
+        })
+    </script>
+{% endblock %}

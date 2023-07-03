@@ -1,0 +1,250 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block title %}{% trans 'aWheele - Buy the best cars, parts and motorcycles' %}{% endblock %}
+
+{% load static %}
+{% load humanize %}
+{% load classes %}
+
+{% block extra_css %}
+    <style>
+        .btn-category {
+            background-color: #211780e5;
+            color: #fff;
+            transition: box-shadow 0.3s ease;
+            padding-left: 3em;
+            padding-right: 3em;
+        }
+        .btn-category:hover {
+            color: #fff;
+            background-color: #100670e5;
+            box-shadow: 0 0 8px black;
+        }
+    </style>
+{% endblock %}
+
+{% block navbar_after %}
+    <div class="card">
+        <div class="image-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 mb-3">
+                        <form method="get" action="{% url 'products:search' %}">
+                            <div class="card mt-2 shadow-sm search-bar">
+                                <!-- Product type -->
+                                {% include 'products/partials/__product_searchbar.html' %}
+                                <div class="card-body">
+                                    <!-- Condition -->
+                                    {% include 'products/partials/__condition_searchbar.html' %}
+                                    <!-- Other options -->
+                                    <div class="mt-3" id="product-search-bar"></div>
+                                </div>
+                                <div class="search-btn position-relative w-100">
+                                    <a href="{% url 'products:search' %}?product_type=car" class="btn btn-light float-left mb-2 ml-2 text-decoration-none" style="width: 46%; font-weight: 600;" id="more-search-options-btn">
+                                        <i class="fa-s"></i>
+                                        More search options...
+                                    </a>
+                                    <button class="btn btn-danger float-right mb-2 mr-2" style="width: 46%;">
+                                        {% trans 'Search' %}
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-6 mt-2">
+                        {% if products.exists %}
+                            {% with products.first as product %}
+                                <div class="card position-relative day-baragain">
+                                    <a href="{% url 'products:detail' section=product|to_class_name|lower product_slug=product.slug %}" class="card-img">
+                                        <div class="uniqued"></div>
+                                        {% if product.images.exists %}
+                                            <img src="{{ product.images.first }}" class="product-image" alt="">
+                                        {% else %}
+                                            <img src="{% static 'images/imageNotFound.png' %}" class="product-image" alt="">
+                                        {% endif %}
+                                    </a>
+                                    <div class="card-body">
+                                        <div class="d-flex" style="justify-content: space-between;">
+                                            <p class="float-left bg-primary p-2">Baragain of the day</p>
+                                            <p class="product-price float-right text-white" style="background-color: transparent; position: static;">
+                                                {{ product.price|floatformat:0|intcomma }}
+                                                <sup>{{ product.currency }}</sup>
+                                            </p>
+                                        </div>
+                                        <a draggable="false" class="text-decoration-none title color-white" href="{% url 'products:detail' section=product|to_class_name|lower product_slug=product.slug %}">{{ product.get_title|truncatechars:26 }}</a>
+                                    </div>
+                                    <div class="card-footer" style="font-size: small;">
+                                        <div class="float-left">
+                                            <p>
+                                                <i class="fas fa-map-marker-alt fa-lg" style="color: #37c477;"></i>
+                                                {{ product.city }}
+                                            </p>
+                                        </div>
+                                        <div class="float-right">
+                                            <a href="{% url 'products:detail' section=product|to_class_name|lower product_slug=product.slug %}#contact" style="color: red;"><i class="far fa-envelope fa-2x"></i></a>
+                                            {% is_in_observed_list product as product_in_observed_list %}
+                                            {% if product_in_observed_list %}
+                                                <a draggable="false" href="#" data-href="{% url 'products:remove-observed-offer' section=product|to_class_name|lower product_id=product.id %}" class="remove-observed-offer" title="remove from observed list">
+                                                    <i class="fas fa-star fa-2x text-white ml-2"></i>
+                                                </a>
+                                            {% else %}
+                                                <a draggable="false" href="#" data-href="{% url 'products:add-observed-offer' section=product|to_class_name|lower product_id=product.id %}" class="add-observed-offer" title="add to observed list">
+                                                    <i class="far fa-star fa-2x text-white ml-2"></i>
+                                                </a>
+                                            {% endif %}
+                                        </div>
+                                        <br> <br>
+                                        <div class="float-right">
+                                            {% if product|to_class_name|lower == 'car' or product|to_class_name|lower == 'motorcycle' %}
+                                                <span>{{ product.get_mark_display }}</span>
+                                                &nbsp; &bullet; &nbsp;
+                                                <span>{{ product.year_production }} r.</span>
+                                                &nbsp; &bullet; &nbsp;
+                                                <span style="white-space: nowrap;">{{ product.mileage }} km</span>
+
+                                                {% if product|to_class_name|lower == 'car' %}
+                                                    &nbsp; &bullet; &nbsp;
+                                                    <span>{{ product.get_fuel_type_display }}</span>
+                                                {% elif product|to_class_name == 'Motorcycle' %}
+                                                    &nbsp; &bullet; &nbsp;
+                                                    <span>{{ product.get_motorcycle_type_display }}</span>
+                                                {% endif %}
+
+                                            {% elif product|to_class_name|lower == 'part' %}
+                                                {% if product.mark %}
+                                                    <span>{{ product.get_mark_display }}</span>
+                                                    &nbsp; &bullet; &nbsp;
+                                                {% endif %}
+                                                <span>{{ product.get_part_type_display }}</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endwith %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'partials/_socialmedia_nav.html' %}
+{% endblock %}
+
+{% block body_content %}
+
+<div class="mt-5"></div>
+
+<div class="container position-relative">
+    <h3 class="text-center mb-2">{% trans 'Promoted offers' %}</h3>
+    {% if products.exists %}
+        <div class="card-deck promo-product">
+            {% for product in products|slice:"1:" %}
+                <div class="card position-relative">
+                    <div class="card-img">
+                        <a href="{% url 'products:detail' section=product|to_class_name|lower product_slug=product.slug %}">
+                            <div class="uniqued"></div>
+                            {% if product.images.exists %}
+                                <img src="{{ product.images.first }}" class="product-image" alt="">
+                            {% else %}
+                                <img src="{% static 'images/imageNotFound.png' %}" class="product-image" alt="">
+                            {% endif %}
+                        </a>
+                        <span class="product-price">
+                            {{ product.price|floatformat:0|intcomma }}
+                            <sup>{{ product.currency }}</sup>
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <a draggable="false" class="text-decoration-none title" href="{% url 'products:detail' section=product|to_class_name|lower product_slug=product.slug %}">{{ product.get_title|truncatechars:26 }}</a>
+                    </div>
+                    <div class="card-footer text-muted bg-white" style="font-size: small;">
+                        <div class="float-left">
+                            <p>
+                                <i class="fas fa-map-marker-alt fa-lg" style="color: rgba(55, 196, 118, 0.651);"></i>
+                                {{ product.city }}
+                            </p>
+                        </div>
+                        <div class="float-right">
+                            <a href="{% url 'products:detail' section=product|to_class_name|lower product_slug=product.slug %}#contact" style="color: red;"><i class="far fa-envelope fa-2x"></i></a>
+                            {% is_in_observed_list product as product_in_observed_list %}
+                            {% if product_in_observed_list %}
+                                <a draggable="false" href="#" data-href="{% url 'products:remove-observed-offer' section=product|to_class_name|lower product_id=product.id %}" class="remove-observed-offer" title="remove from observed list">
+                                    <i class="fas fa-star fa-2x text-primary ml-2"></i>
+                                </a>
+                            {% else %}
+                                <a draggable="false" href="#" data-href="{% url 'products:add-observed-offer' section=product|to_class_name|lower product_id=product.id %}" class="add-observed-offer" title="add to observed list">
+                                    <i class="far fa-star fa-2x text-primary ml-2"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                        <br> <br>
+                        <div class="float-right">
+                            {% if product|to_class_name|lower == 'car' or product|to_class_name|lower == 'motorcycle' %}
+                                <span>{{ product.get_mark_display }}</span>
+                                &nbsp; &bullet; &nbsp;
+                                <span>{{ product.year_production }} r.</span>
+                                &nbsp; &bullet; &nbsp;
+                                <span style="white-space: nowrap;">{{ product.mileage }} km</span>
+
+                                {% if product|to_class_name|lower == 'car' %}
+                                    &nbsp; &bullet; &nbsp;
+                                    <span>{{ product.get_fuel_type_display }}</span>
+                                {% elif product|to_class_name == 'Motorcycle' %}
+                                    &nbsp; &bullet; &nbsp;
+                                    <span>{{ product.get_motorcycle_type_display }}</span>
+                                {% endif %}
+
+                            {% elif product|to_class_name|lower == 'part' %}
+                                {% if product.mark %}
+                                    <span>{{ product.get_mark_display }}</span>
+                                    &nbsp; &bullet; &nbsp;
+                                {% endif %}
+                                <span>{{ product.get_part_type_display }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% else %}
+        <div class="card">
+            <div class="card-body">
+                <h2 class="text-center">There's no promoted offers</h2>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<img class="my-5 d-flex img-fluid" style="display: flex; margin: auto;" src="https://lh5.ggpht.com/mTRR6NXg718Xtg1pn_OlR3CgiJ0Z8-JcfQ5ewIltFkoUc5CKI002NEZ7YSUm_Ty0Dzd_X083=w895" alt="">
+
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        $(document).ready(function() {
+            const $search_bar = $('#product-search-bar')
+            if('{{ request.GET.product_type|yesno:"yes,no" }}' == 'yes') {
+                $search_bar.html(eval('base_{{ request.GET.product_type }}'))
+            }
+            else $search_bar.html(base_car)
+            close_with_x()
+            set_locks()
+
+            $('#product-type').change(function() {
+                const $more_search_option_btn = $('#more-search-options-btn')
+                const selected_value = $("input[name='product_type']:checked").val();
+
+                const href = `?product_type=${selected_value}`
+                window.location = href
+
+                $more_search_option_btn.attr('href', `{% url 'products:search' %}${href}`)
+            })
+        })
+    </script>
+    <script src="{% static 'js/observed_list.js' %}"></script>
+{% endblock %}

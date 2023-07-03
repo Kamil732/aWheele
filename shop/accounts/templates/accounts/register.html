@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Register Page{% endblock %}
+
+{% load i18n %}
+{% load static %}
+
+{% block body_content %}
+
+<div class="container2">
+    <div class="container">
+        <div class="card shadow-sm rounded-lg">
+            <div class="card-body">
+                <form method="post"> {% csrf_token %}
+                    <h1 class="mb-4">{% trans 'Register' %}</h1>
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div class="form-group">
+                        {% if form.email.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {% for error in form.email.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="animated-label">
+                            {{ form.email }}
+                            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {% if form.password1.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {% for error in form.password1.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="animated-label">
+                            {{ form.password1 }}
+                            <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {% if form.password2.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {% for error in form.password2.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="animated-label">
+                            {{ form.password2 }}
+                            <label for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
+                        </div>
+                    </div>
+                    <button class="btn btn-info px-4">{% trans 'Register' %}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}{% endblock %}

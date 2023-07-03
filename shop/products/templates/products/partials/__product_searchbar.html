@@ -1,0 +1,16 @@
+{% load i18n %}
+
+<ul class="nav nav-tabs bg-light btn-group btn-group-toggle" id="product-type" data-toggle="buttons">
+    <li class="nav-item btn btn-light">
+        <i class="fas fa-car-side"></i><br>
+        <input type="radio" name="product_type" value="car" autocomplete="off" required {% if request.GET.product_type == 'car' or not request.GET.product_type %}checked{% endif %}> {% trans 'Cars' %}
+    </li>
+    <li class="nav-item btn btn-light">
+        <i class="fas fa-tools"></i><br>
+        <input type="radio" name="product_type" value="part" autocomplete="off" required {% if request.GET.product_type == 'part' %}checked{% endif %}> {% trans 'Parts' %}
+    </li>
+    <li class="nav-item btn btn-light">
+        <i class="fas fa-motorcycle"></i><br>
+        <input type="radio" name="product_type" value="motorcycle" autocomplete="off" required {% if request.GET.product_type == 'motorcycle' %}checked{% endif %}> {% trans 'Motorcycles' %}
+    </li>
+</ul>

@@ -1,0 +1,28 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+django-phonenumber-field = {extras = ["phonenumbers"],version = "*"}
+django-querysetsequence = "*"
+python-memcached = "*"
+model-mommy = "*"
+psycopg2 = "*"
+python-gettext = "*"
+django-coutries = "*"
+django-countries = "*"
+django-leaflet = "*"
+geopy = "*"
+Django = "*"
+Pillow = "*"
+django-debug-toolbar = "*"
+phonenumbers = "*"
+django-cities-teryt = "*"
+django-cities-light = "*"
+faker = "*"
+
+[requires]
+python_version = "3.8"
